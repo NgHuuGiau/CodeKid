@@ -1,11 +1,15 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-input() đọc một dòng do người dùng nhập. Kết quả luôn là chuỗi. Trong bài chấm tự động, dùng input() không kèm lời nhắc để đầu ra không bị thừa.
+00:00.000 --> 00:10.000
+Dùng input() để nhận một dòng chữ và in lời chào có tên.
+input() chờ người dùng gõ một dòng rồi gửi dòng đó cho chương trình.
+Dữ liệu nhận được ban đầu là chữ, kể cả khi người dùng gõ số.
+Mình có thể đặt dòng chữ đó vào biến rồi dùng print() để hiện lại.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 name = input()
 print(name)
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Có thể dùng int(input()) để chuyển chuỗi thành số nguyên.
+Đọc một dòng tên. In Xin chào, theo sau bởi một dấu cách và tên vừa nhập.

@@ -1,10 +1,14 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-print() đưa nội dung ra màn hình. Văn bản nằm trong dấu nháy; cặp ngoặc tròn chứa nội dung cần in.
+00:00.000 --> 00:10.000
+Dùng print() và dấu nháy để hiện đúng một dòng chữ.
+print() hiện nội dung trên màn hình.
+Khi muốn hiện chữ, hãy đặt chữ giữa hai dấu nháy rồi đặt bên trong ngoặc tròn.
+Dấu nháy đơn và nháy kép đều dùng được, nhưng phải đi thành cặp.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 print("Hello World")
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Dấu nháy đơn và nháy kép đều dùng được cho chuỗi.
+In Hello World trên một dòng.

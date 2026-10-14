@@ -1,8 +1,8 @@
 [
   {
     "title": "Làm quen Python",
-    "objectives": "Hiểu làm quen python, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Python là ngôn ngữ giúp mình giao tiếp với máy tính. Một chương trình gồm các lệnh chạy theo thứ tự từ trên xuống dưới.",
+    "objectives": "Dùng print() để hiện lời chào trên màn hình.",
+    "explanation": "Python là cách mình viết hướng dẫn để máy tính làm theo.\nChương trình chạy từng dòng, từ trên xuống dưới.\nprint(...) bảo máy tính hiện nội dung nằm bên trong dấu ngoặc.",
     "example": "print(\"Xin chào CodeKid\")",
     "notes": "Python phân biệt chữ hoa và chữ thường. Mỗi lệnh thường nằm trên một dòng.",
     "quiz": "Ngôn ngữ nào chúng ta đang học?",
@@ -27,9 +27,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 5 ký tự.",
-        "Bắt đầu bằng: p"
+        "print() là lệnh giúp hiện chữ lên màn hình.",
+        "Nội dung muốn hiện phải đặt trong cặp ngoặc tròn.",
+        "Tên lệnh bắt đầu bằng chữ p."
       ]
     ],
     "challengeTitle": "Lời chào đầu tiên",
@@ -50,8 +50,8 @@
   },
   {
     "title": "Lệnh print()",
-    "objectives": "Hiểu lệnh print(), đọc ví dụ và tự giải bài tập.",
-    "explanation": "print() đưa nội dung ra màn hình. Văn bản nằm trong dấu nháy; cặp ngoặc tròn chứa nội dung cần in.",
+    "objectives": "Dùng print() và dấu nháy để hiện đúng một dòng chữ.",
+    "explanation": "print() hiện nội dung trên màn hình.\nKhi muốn hiện chữ, hãy đặt chữ giữa hai dấu nháy rồi đặt bên trong ngoặc tròn.\nDấu nháy đơn và nháy kép đều dùng được, nhưng phải đi thành cặp.",
     "example": "print(\"Hello World\")",
     "notes": "Dấu nháy đơn và nháy kép đều dùng được cho chuỗi.",
     "quiz": "Lệnh nào hiển thị nội dung?",
@@ -77,9 +77,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 13 ký tự.",
-        "Bắt đầu bằng: \""
+        "Phần nằm trong dấu nháy là dòng chữ cần hiện.",
+        "Giữ cả cặp dấu nháy bên trong ngoặc của print().",
+        "Lời chào bắt đầu bằng dấu nháy."
       ]
     ],
     "challengeTitle": "Hello World",
@@ -100,8 +100,8 @@
   },
   {
     "title": "Biến và kiểu dữ liệu",
-    "objectives": "Hiểu biến và kiểu dữ liệu, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Biến là một nhãn để giữ dữ liệu. Python có số nguyên int, số thực float, chuỗi str và giá trị đúng/sai bool. Dùng dấu = để gán.",
+    "objectives": "Tạo biến name để cất một biệt danh rồi in biệt danh đó.",
+    "explanation": "Biến giống như chiếc hộp có nhãn: nhãn giúp mình nhớ dữ liệu đang cất ở đâu.\nDấu = đặt dữ liệu vào chiếc hộp; nó không có nghĩa là hai bên bằng nhau.\nTrong ví dụ, name cất chữ CodeKid, rồi print(name) hiện nội dung trong hộp.",
     "example": "name = \"CodeKid\"\nprint(name)",
     "notes": "Tên biến không bắt đầu bằng chữ số. Không dùng tên trùng từ khóa Python.",
     "quiz": "age = 12 đang lưu kiểu dữ liệu nào?",
@@ -130,9 +130,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
-        "Bắt đầu bằng: ="
+        "Biến là một chiếc hộp có tên để cất dữ liệu.",
+        "Dấu = đặt dữ liệu ở bên phải vào biến ở bên trái.",
+        "Tên biến trong ví dụ bắt đầu bằng chữ n."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -158,8 +158,8 @@
   },
   {
     "title": "Lệnh input()",
-    "objectives": "Hiểu lệnh input(), đọc ví dụ và tự giải bài tập.",
-    "explanation": "input() đọc một dòng do người dùng nhập. Kết quả luôn là chuỗi. Trong bài chấm tự động, dùng input() không kèm lời nhắc để đầu ra không bị thừa.",
+    "objectives": "Dùng input() để nhận một dòng chữ và in lời chào có tên.",
+    "explanation": "input() chờ người dùng gõ một dòng rồi gửi dòng đó cho chương trình.\nDữ liệu nhận được ban đầu là chữ, kể cả khi người dùng gõ số.\nMình có thể đặt dòng chữ đó vào biến rồi dùng print() để hiện lại.",
     "example": "name = input()\nprint(name)",
     "notes": "Có thể dùng int(input()) để chuyển chuỗi thành số nguyên.",
     "quiz": "input() trả về dữ liệu kiểu gì?",
@@ -187,9 +187,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 5 ký tự.",
-        "Bắt đầu bằng: i"
+        "input() nhận nội dung người dùng gõ.",
+        "Hãy lưu nội dung nhận được vào biến name.",
+        "Tên lệnh nhận dữ liệu bắt đầu bằng chữ i."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -220,8 +220,8 @@
   },
   {
     "title": "Phép toán",
-    "objectives": "Hiểu phép toán, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Python có +, -, *, / và % (chia lấy dư). Với số nguyên, hãy chuyển input() bằng int trước khi tính toán.",
+    "objectives": "Dùng int(input()) và phép + để cộng hai số người dùng nhập.",
+    "explanation": "Các dấu +, -, * lần lượt dùng để cộng, trừ và nhân.\ninput() nhận dữ liệu dạng chữ; int(...) đổi chữ số thành số để tính toán.\nDấu % cho biết phần dư sau phép chia, còn / chia ra kết quả có thể có phần thập phân.",
     "example": "a = int(input())\nb = int(input())\nprint(a + b)",
     "notes": "Dấu + cộng số nhưng nối chuỗi. % giúp kiểm tra chẵn/lẻ.",
     "quiz": "7 % 2 bằng bao nhiêu?",
@@ -253,9 +253,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 3 ký tự.",
-        "Bắt đầu bằng: i"
+        "Muốn cộng hai số, trước hết đổi từng dòng nhập thành số nguyên.",
+        "Dùng dấu + giữa hai số đã đổi.",
+        "Hàm đổi chữ thành số bắt đầu bằng chữ i."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -296,8 +296,8 @@
   },
   {
     "title": "Điều kiện if/else",
-    "objectives": "Hiểu điều kiện if/else, đọc ví dụ và tự giải bài tập.",
-    "explanation": "if thực hiện một nhóm lệnh khi điều kiện đúng; else xử lý trường hợp còn lại. Sau điều kiện có dấu hai chấm, các lệnh bên trong phải thụt vào.",
+    "objectives": "Dùng if/else để chọn lời in ra khi số là chẵn hay lẻ.",
+    "explanation": "if giúp chương trình chọn việc cần làm khi một điều kiện đúng.\nPhép chia lấy dư n % 2 cho biết số n có dư khi chia cho 2 không: dư 0 là số chẵn.\nSau if và else có dấu :, các dòng thuộc mỗi nhánh cần thụt vào.",
     "example": "n = int(input())\nif n % 2 == 0:\n    print(\"Chẵn\")\nelse:\n    print(\"Lẻ\")",
     "notes": "Dùng == để so sánh, = để gán. Thụt vào nhất quán 4 dấu cách.",
     "quiz": "Từ khóa nào chạy khi điều kiện if sai?",
@@ -329,9 +329,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 2 ký tự.",
-        "Bắt đầu bằng: i"
+        "Số chẵn chia 2 có phần dư bằng 0.",
+        "Dùng if để kiểm tra n % 2 == 0; trường hợp còn lại dùng else.",
+        "Nhớ viết dấu hai chấm sau if và else."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -372,8 +372,8 @@
   },
   {
     "title": "Vòng lặp for",
-    "objectives": "Hiểu vòng lặp for, đọc ví dụ và tự giải bài tập.",
-    "explanation": "for lặp qua một dãy giá trị. range(n) tạo các số từ 0 đến n-1. range(1, n+1) tạo từ 1 đến n.",
+    "objectives": "Dùng for và range() để in các số từ 1 đến n.",
+    "explanation": "Vòng lặp for làm lại một nhóm lệnh cho từng số trong một dãy.\nrange(1, n + 1) tạo các số bắt đầu từ 1; điểm cuối không được lấy, nên cần n + 1.\nCác số trong vòng lặp được gán lần lượt cho biến i.",
     "example": "n = int(input())\nfor i in range(1, n + 1):\n    print(i)",
     "notes": "Giới hạn cuối của range không được đưa vào dãy.",
     "quiz": "range(3) tạo các giá trị nào?",
@@ -413,9 +413,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 3 ký tự.",
-        "Bắt đầu bằng: i"
+        "for lặp qua từng số trong một dãy.",
+        "range(1, n + 1) bắt đầu ở 1 và có cả n.",
+        "Tên biến đếm trong ví dụ là i."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -461,8 +461,8 @@
   },
   {
     "title": "Vòng lặp while",
-    "objectives": "Hiểu vòng lặp while, đọc ví dụ và tự giải bài tập.",
-    "explanation": "while lặp khi điều kiện còn đúng. Cập nhật biến trong vòng lặp để điều kiện có thể trở thành sai.",
+    "objectives": "Dùng while để đếm ngược và dừng khi n không còn lớn hơn 0.",
+    "explanation": "while lặp lại các lệnh chừng nào điều kiện còn đúng.\nMỗi lượt, hãy in n rồi giảm n đi 1.\nNếu quên giảm n, điều kiện n > 0 có thể luôn đúng và vòng lặp không dừng.",
     "example": "n = int(input())\nwhile n > 0:\n    print(n)\n    n -= 1",
     "notes": "Vòng lặp quên cập nhật biến có thể chạy mãi; sandbox sẽ dừng chương trình quá thời gian.",
     "quiz": "Làm gì để vòng lặp while kết thúc?",
@@ -503,9 +503,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 3 ký tự.",
-        "Bắt đầu bằng: i"
+        "while tiếp tục khi điều kiện của nó đúng.",
+        "Sau mỗi lượt, giảm n đi 1 để tiến gần đến lúc dừng.",
+        "Điều kiện cần kiểm tra là n > 0."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -551,8 +551,8 @@
   },
   {
     "title": "Danh sách",
-    "objectives": "Hiểu danh sách, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Danh sách lưu nhiều giá trị trong cặp ngoặc vuông. Vị trí đầu tiên có chỉ số 0. Dùng append để thêm phần tử và len để lấy độ dài.",
+    "objectives": "Đọc danh sách số và dùng sum() để tính tổng, kể cả khi danh sách rỗng.",
+    "explanation": "Danh sách gom nhiều giá trị trong cặp ngoặc vuông.\ninput().split() tách một dòng thành các phần; map(int, ...) đổi từng phần thành số.\nChỉ số đầu tiên là 0. sum(numbers) cộng các số trong danh sách; danh sách rỗng có tổng bằng 0.",
     "example": "numbers = [2, 4, 6]\nnumbers.append(8)\nprint(numbers[0])\nprint(len(numbers))",
     "notes": "Không truy cập phần tử ngoài chỉ số từ 0 đến len(list)-1.",
     "quiz": "Chỉ số phần tử đầu tiên là gì?",
@@ -592,9 +592,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
-        "Bắt đầu bằng: ["
+        "split() tách các số trong dòng nhập.",
+        "Dùng int để đổi từng phần thành số trước khi cộng.",
+        "sum() là hàm cộng các phần tử trong danh sách."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -640,8 +640,8 @@
   },
   {
     "title": "Hàm",
-    "objectives": "Hiểu hàm, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Hàm gom các lệnh để dùng lại. def khai báo hàm, tham số nhận dữ liệu và return trả về kết quả. Sau khi định nghĩa, gọi hàm bằng tên và ngoặc.",
+    "objectives": "Viết hàm square(n) trả về bình phương của n rồi gọi hàm đó.",
+    "explanation": "Hàm là một nhóm lệnh có tên để dùng lại.\ndef square(n) tạo hàm tên square và nhận dữ liệu qua n.\nreturn gửi kết quả trở lại nơi gọi hàm; khác với print(), nó không tự hiện kết quả.",
     "example": "def add(a, b):\n    return a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))",
     "notes": "return kết thúc hàm; print chỉ hiển thị. Định nghĩa hàm trước khi gọi.",
     "quiz": "Từ khóa nào trả kết quả của hàm?",
@@ -691,9 +691,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 3 ký tự.",
-        "Bắt đầu bằng: d"
+        "def dùng để bắt đầu khai báo một hàm.",
+        "Hàm cần trả về n * n bằng return.",
+        "Tên hàm trong bài là square."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -754,8 +754,8 @@
   },
   {
     "title": "Xử lý chuỗi",
-    "objectives": "Hiểu xử lý chuỗi, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Chuỗi có các phương thức strip() bỏ khoảng trắng hai đầu, upper() đổi chữ hoa, lower() đổi chữ thường. len() đếm số ký tự; có thể lặp qua chuỗi.",
+    "objectives": "Dùng strip(), upper() và len() để làm sạch rồi phân tích một dòng chữ.",
+    "explanation": "Chuỗi là một dòng chữ.\nstrip() bỏ khoảng trắng ở đầu và cuối; upper() đổi chữ thành chữ hoa.\nlen() đếm số ký tự. Hãy dùng cùng một chuỗi đã strip() khi in chữ hoa và đếm độ dài.",
     "example": "text = input().strip()\nprint(text.upper())\nprint(len(text))",
     "notes": "Chuỗi không tự đổi: phương thức trả về chuỗi mới, nên dùng giá trị trả về.",
     "quiz": "Phương thức nào đổi chuỗi thành chữ hoa?",
@@ -806,9 +806,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 5 ký tự.",
-        "Bắt đầu bằng: i"
+        "strip() bỏ khoảng trắng thừa ở hai đầu.",
+        "upper() đổi các chữ cái thành chữ hoa.",
+        "len() đếm số ký tự trong chuỗi."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
@@ -869,8 +869,8 @@
   },
   {
     "title": "Bài tập tổng hợp",
-    "objectives": "Hiểu bài tập tổng hợp, đọc ví dụ và tự giải bài tập.",
-    "explanation": "Kết hợp nhập dữ liệu, danh sách, vòng lặp, điều kiện và hàm. Chia bài toán thành từng bước nhỏ: đọc, xử lý, hiển thị. Thử trường hợp đơn giản, số âm và danh sách rỗng.",
+    "objectives": "Kết hợp danh sách, vòng lặp và điều kiện để cộng các số chẵn.",
+    "explanation": "Một bài toán lớn dễ làm hơn khi chia thành ba việc: đọc dữ liệu, lọc số cần dùng, rồi cộng.\nĐổi mỗi phần tử thành số nguyên; giữ lại số có n % 2 == 0.\nDanh sách rỗng thì không có số nào cần cộng, nên kết quả là 0.",
     "example": "def sum_even(numbers):\n    total = 0\n    for n in numbers:\n        if n % 2 == 0:\n            total += n\n    return total\nnumbers = list(map(int, input().split()))\nprint(sum_even(numbers))",
     "notes": "Chấm code kiểm tra nhiều bộ dữ liệu. Không in lời nhắc hoặc nội dung thừa.",
     "quiz": "Để cộng các số chẵn, kiểm tra điều kiện gì?",
@@ -933,9 +933,9 @@
     ],
     "hints": [
       [
-        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
-        "Từ cần gõ có 3 ký tự.",
-        "Bắt đầu bằng: d"
+        "Chỉ cộng những số có n % 2 bằng 0.",
+        "Duyệt từng số trong danh sách bằng vòng lặp.",
+        "Điều kiện số chẵn là n % 2 == 0."
       ],
       [
         "Đọc lại ví dụ của bài để xác định vai trò của ô này.",

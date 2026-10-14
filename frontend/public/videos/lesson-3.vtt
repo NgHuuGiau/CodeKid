@@ -1,11 +1,15 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-Biến là một nhãn để giữ dữ liệu. Python có số nguyên int, số thực float, chuỗi str và giá trị đúng/sai bool. Dùng dấu = để gán.
+00:00.000 --> 00:10.000
+Tạo biến name để cất một biệt danh rồi in biệt danh đó.
+Biến giống như chiếc hộp có nhãn: nhãn giúp mình nhớ dữ liệu đang cất ở đâu.
+Dấu = đặt dữ liệu vào chiếc hộp; nó không có nghĩa là hai bên bằng nhau.
+Trong ví dụ, name cất chữ CodeKid, rồi print(name) hiện nội dung trong hộp.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 name = "CodeKid"
 print(name)
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Tên biến không bắt đầu bằng chữ số. Không dùng tên trùng từ khóa Python.
+Tạo biến name chứa CodeKid và in giá trị của biến đó.

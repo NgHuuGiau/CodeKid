@@ -1,13 +1,17 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-Danh sách lưu nhiều giá trị trong cặp ngoặc vuông. Vị trí đầu tiên có chỉ số 0. Dùng append để thêm phần tử và len để lấy độ dài.
+00:00.000 --> 00:10.000
+Đọc danh sách số và dùng sum() để tính tổng, kể cả khi danh sách rỗng.
+Danh sách gom nhiều giá trị trong cặp ngoặc vuông.
+input().split() tách một dòng thành các phần; map(int, ...) đổi từng phần thành số.
+Chỉ số đầu tiên là 0. sum(numbers) cộng các số trong danh sách; danh sách rỗng có tổng bằng 0.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 numbers = [2, 4, 6]
 numbers.append(8)
 print(numbers[0])
 print(len(numbers))
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Không truy cập phần tử ngoài chỉ số từ 0 đến len(list)-1.
+Đọc một dòng các số nguyên cách nhau bởi dấu cách. In tổng các số; dòng trống có tổng bằng 0.

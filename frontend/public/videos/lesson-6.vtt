@@ -1,14 +1,18 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-if thực hiện một nhóm lệnh khi điều kiện đúng; else xử lý trường hợp còn lại. Sau điều kiện có dấu hai chấm, các lệnh bên trong phải thụt vào.
+00:00.000 --> 00:10.000
+Dùng if/else để chọn lời in ra khi số là chẵn hay lẻ.
+if giúp chương trình chọn việc cần làm khi một điều kiện đúng.
+Phép chia lấy dư n % 2 cho biết số n có dư khi chia cho 2 không: dư 0 là số chẵn.
+Sau if và else có dấu :, các dòng thuộc mỗi nhánh cần thụt vào.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 n = int(input())
 if n % 2 == 0:
     print("Chẵn")
 else:
     print("Lẻ")
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Dùng == để so sánh, = để gán. Thụt vào nhất quán 4 dấu cách.
+Đọc một số nguyên. In CHAN nếu chẵn, LE nếu lẻ. Dùng chữ hoa không dấu.

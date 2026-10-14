@@ -1,12 +1,16 @@
 WEBVTT
 
-00:00.000 --> 00:06.000
-Python có +, -, *, / và % (chia lấy dư). Với số nguyên, hãy chuyển input() bằng int trước khi tính toán.
+00:00.000 --> 00:10.000
+Dùng int(input()) và phép + để cộng hai số người dùng nhập.
+Các dấu +, -, * lần lượt dùng để cộng, trừ và nhân.
+input() nhận dữ liệu dạng chữ; int(...) đổi chữ số thành số để tính toán.
+Dấu % cho biết phần dư sau phép chia, còn / chia ra kết quả có thể có phần thập phân.
 
-00:06.000 --> 00:12.000
+00:10.000 --> 00:20.000
 a = int(input())
 b = int(input())
 print(a + b)
 
-00:12.000 --> 00:19.000
+00:20.000 --> 00:30.000
 Dấu + cộng số nhưng nối chuỗi. % giúp kiểm tra chẵn/lẻ.
+Nhập hai số nguyên, mỗi số trên một dòng. In tổng của chúng.

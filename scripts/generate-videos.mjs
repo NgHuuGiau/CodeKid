@@ -36,10 +36,10 @@ try {
           }
           function frame(step, progress) {
             ctx.fillStyle = '#f3f5ff'; ctx.fillRect(0, 0, 1280, 720);
-            ctx.fillStyle = '#6366f1'; ctx.fillRect(0, 0, 12, 720);
+            ctx.fillStyle = '#5e58d8'; ctx.fillRect(0, 0, 12, 720);
             ctx.font = '700 20px "Be Vietnam Pro", sans-serif'; ctx.fillText('CodeKid Academy  ·  Python', 64, 54);
             ctx.fillStyle = '#1e293b'; ctx.font = '700 40px "Be Vietnam Pro", sans-serif'; ctx.fillText(`${index + 1}. ${lesson.title}`, 64, 115);
-            ctx.fillStyle = '#64748b'; ctx.font = '600 18px "Be Vietnam Pro", sans-serif'; ctx.fillText(['01 · Hiểu một điều mới', '02 · Đọc và thử ví dụ', '03 · Ghi nhớ & thực hành'][step], 64, 169);
+            ctx.fillStyle = '#53617b'; ctx.font = '600 18px "Be Vietnam Pro", sans-serif'; ctx.fillText(['01 · Mục tiêu & giải thích', '02 · Quan sát ví dụ', '03 · Ghi nhớ & thực hành'][step], 64, 169);
             if (step === 1) {
               ctx.fillStyle = '#252d47'; ctx.beginPath(); ctx.roundRect(60, 198, 1160, 392, 22); ctx.fill();
               ctx.font = '23px Consolas, monospace';
@@ -47,21 +47,29 @@ try {
             } else {
               ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.roundRect(60, 200, 1160, 370, 22); ctx.fill();
               ctx.font = '600 29px "Be Vietnam Pro", sans-serif'; ctx.fillStyle = '#364563';
-              wrap(step === 0 ? lesson.explanation : lesson.notes, 92, 265, 1090, 49);
-              if (step === 2) { ctx.fillStyle = '#6366f1'; ctx.font = '600 23px "Be Vietnam Pro", sans-serif'; wrap('Tiếp theo: trả lời câu hỏi ôn tập, rồi khám phá ba chế độ thực hành.', 92, 475, 1060, 38); }
+              if (step === 0) {
+                wrap(`Mục tiêu: ${lesson.objectives}`, 92, 255, 1090, 45);
+                ctx.fillStyle = '#53617b'; ctx.font = '24px "Be Vietnam Pro", sans-serif';
+                wrap(lesson.explanation, 92, 360, 1090, 42);
+              } else {
+                wrap(`Ghi nhớ: ${lesson.notes}`, 92, 265, 1090, 45);
+                ctx.fillStyle = '#5e58d8'; ctx.font = '600 23px "Be Vietnam Pro", sans-serif';
+                wrap(`Thử làm: ${lesson.challengeDescription}`, 92, 420, 1090, 38);
+              }
+              if (step === 2) { ctx.fillStyle = '#53617b'; ctx.font = '21px "Be Vietnam Pro", sans-serif'; wrap('Bạn có thể tạm dừng để đọc kỹ, rồi tiếp tục khi sẵn sàng.', 92, 535, 1060, 34); }
             }
-            ctx.fillStyle = '#64748b'; ctx.font = '18px "Be Vietnam Pro", sans-serif'; ctx.fillText('Dừng video khi cần đọc kỹ · Không có âm thanh · Phụ đề tiếng Việt', 64, 642);
-            ctx.fillStyle = '#dce1f6'; ctx.fillRect(64, 680, 1150, 5); ctx.fillStyle = '#6366f1'; ctx.fillRect(64, 680, 1150 * (step + progress) / 3, 5);
+            ctx.fillStyle = '#53617b'; ctx.font = '18px "Be Vietnam Pro", sans-serif'; ctx.fillText('Không lời thoại · Phụ đề tiếng Việt · Có thể tạm dừng', 64, 642);
+            ctx.fillStyle = '#dce1f6'; ctx.fillRect(64, 680, 1150, 5); ctx.fillStyle = '#5e58d8'; ctx.fillRect(64, 680, 1150 * (step + progress) / 3, 5);
           }
           frame(0, 0); recorder.start();
-          for (let step = 0; step < 3; step++) for (let tick = 0; tick < 48; tick++) { frame(step, tick / 48); await sleep(125); }
+          for (let step = 0; step < 3; step++) for (let tick = 0; tick < 80; tick++) { frame(step, tick / 80); await sleep(125); }
           recorder.stop(); await stopped; stream.getTracks().forEach(t => t.stop());
           const bytes = new Uint8Array(await new Blob(chunks, { type: 'video/mp4' }).arrayBuffer());
           let binary = ''; for (let i = 0; i < bytes.length; i += 8192) binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
           return btoa(binary);
         }, { lesson, index });
         await writeFile(path.join(destination, `lesson-${index + 1}.mp4`), Buffer.from(result, 'base64'));
-        await writeFile(path.join(destination, `lesson-${index + 1}.vtt`), `WEBVTT\n\n00:00.000 --> 00:06.000\n${lesson.explanation}\n\n00:06.000 --> 00:12.000\n${lesson.example}\n\n00:12.000 --> 00:19.000\n${lesson.notes}\n`);
+        await writeFile(path.join(destination, `lesson-${index + 1}.vtt`), `WEBVTT\n\n00:00.000 --> 00:10.000\n${lesson.objectives}\n${lesson.explanation}\n\n00:10.000 --> 00:20.000\n${lesson.example}\n\n00:20.000 --> 00:30.000\n${lesson.notes}\n${lesson.challengeDescription}\n`.replace(/\n/g, process.platform === 'win32' ? '\r\n' : '\n'));
         console.log(`Video ${index + 1}/12: ${lesson.title}`);
       } finally { await page.close(); }
     }

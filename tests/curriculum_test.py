@@ -23,6 +23,10 @@ SOLUTIONS = [
 
 
 class CurriculumTests(unittest.TestCase):
+    def test_each_lesson_has_a_specific_goal_and_stepwise_explanation(self):
+        self.assertEqual(len({lesson["objectives"] for lesson in LESSONS}), len(LESSONS))
+        self.assertTrue(all("\n" in lesson["explanation"] for lesson in LESSONS))
+
     def test_all_authored_programs_match_seed_test_cases(self):
         self.assertEqual(len(LESSONS), len(SOLUTIONS))
         for lesson, source in zip(LESSONS, SOLUTIONS):
