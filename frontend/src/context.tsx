@@ -99,19 +99,42 @@ export function PreferencesProvider({ children }: { children: ReactNode }) {
 export const usePreferences = () => useContext(Preferences);
 export function playSound(correct: boolean) {
   try {
-    const audio = new AudioContext();
-    const osc = audio.createOscillator();
-    const gain = audio.createGain();
-    osc.connect(gain);
-    gain.connect(audio.destination);
-    osc.frequency.value = correct ? 660 : 240;
-    gain.gain.setValueAtTime(0.07, audio.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.18);
-    osc.start();
-    osc.stop(audio.currentTime + 0.18);
-    osc.onended = () => {
-      void audio.close();
-    };
+    const AudioCtx =
+      window.AudioContext ||
+      (window as unknown as { webkitAudioContext: typeof AudioContext })
+        .webkitAudioContext;
+    if (!AudioCtx) return;
+    const audio = new AudioCtx();
+    if (correct) {
+      const notes = [523.25, 659.25, 783.99, 1046.5];
+      notes.forEach((freq, i) => {
+        const osc = audio.createOscillator();
+        const gain = audio.createGain();
+        osc.connect(gain);
+        gain.connect(audio.destination);
+        osc.type = "sine";
+        osc.frequency.value = freq;
+        const startTime = audio.currentTime + i * 0.07;
+        gain.gain.setValueAtTime(0.06, startTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, startTime + 0.14);
+        osc.start(startTime);
+        osc.stop(startTime + 0.14);
+      });
+      setTimeout(() => void audio.close(), 600);
+    } else {
+      const osc = audio.createOscillator();
+      const gain = audio.createGain();
+      osc.connect(gain);
+      gain.connect(audio.destination);
+      osc.type = "triangle";
+      osc.frequency.setValueAtTime(260, audio.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(160, audio.currentTime + 0.22);
+      gain.gain.setValueAtTime(0.05, audio.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, audio.currentTime + 0.22);
+      osc.start();
+      osc.stop(audio.currentTime + 0.22);
+      setTimeout(() => void audio.close(), 350);
+    }
   } catch {
     /* Optional sound is unavailable on some devices. */
   }

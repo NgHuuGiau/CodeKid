@@ -26,7 +26,8 @@ export default function CodeEditor({
       loading={<State loading />}
       options={{
         readOnly: disabled,
-        fontSize: 15,
+        fontSize: 18,
+        lineHeight: 28,
         fontFamily: "Consolas, monospace",
         minimap: { enabled: false },
         scrollBeyondLastLine: false,

@@ -30,6 +30,7 @@ import {
 } from "lucide-react";
 import { api, useLoad } from "../api";
 import { useAuth, usePreferences, playSound } from "../context";
+import { fireConfetti, fireLevelUp, fireStars } from "../confetti";
 import {
   Button,
   Card,
@@ -77,6 +78,13 @@ export function LessonPage({ id, mode }: { id: string; mode?: string }) {
     memory: !!p?.drag,
     challenge: !!p?.memory,
   };
+  const step = Math.max(0, Object.keys(open).indexOf(mode ?? "theory")) + 1;
+  const stepHelp: Record<string, string> = {
+    theory: "Đọc ví dụ, thử trả lời câu hỏi rồi bắt đầu thực hành.",
+    drag: "Ghép các mảnh code để xem từng lệnh hoạt động ra sao.",
+    memory: "Tự gõ phần còn thiếu. Bạn có thể mở gợi ý bất cứ lúc nào.",
+    challenge: "Viết chương trình, chạy thử với dữ liệu mẫu rồi nộp bài.",
+  };
   async function checkTheory() {
     setBusy(true);
     setError("");
@@ -87,7 +95,10 @@ export function LessonPage({ id, mode }: { id: string; mode?: string }) {
         { answer },
       );
       setFeedback(r.message);
-      if (r.correct) setVersion((v) => v + 1);
+      if (r.correct) {
+        fireStars();
+        setVersion((v) => v + 1);
+      }
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -128,6 +139,14 @@ export function LessonPage({ id, mode }: { id: string; mode?: string }) {
           ),
         )}
       </nav>
+      <div className="lesson-step-card">
+        <span className="lesson-step-number">BƯỚC {step} / 4</span>
+        <div className="lesson-step-copy">
+          <strong>{modeNames[mode ?? "theory"]}</strong>
+          <p>{stepHelp[mode ?? "theory"]}</p>
+        </div>
+        <ProgressBar value={(step / 4) * 100} label={`Bước ${step} trên 4`} />
+      </div>
       {mode && !open[mode as keyof typeof open] ? (
         <State error="Hoàn thành bước trước để mở chế độ này." />
       ) : mode === "challenge" ? (
@@ -163,26 +182,32 @@ export function LessonPage({ id, mode }: { id: string; mode?: string }) {
                   <p>{l.content.notes}</p>
                 </div>
               </div>
-              <h3>Video hướng dẫn</h3>
+              <h3>Minh họa từng bước</h3>
               {l.video ? (
                 l.video.url.startsWith("/videos/") ? (
-                  <video
-                    className="lesson-video"
-                    controls
-                    preload="metadata"
-                    aria-label={l.video.title}
-                  >
-                    <source src={l.video.url} type="video/mp4" />
-                    <track
-                      kind="captions"
-                      src={l.video.url.replace(".mp4", ".vtt")}
-                      srcLang="vi"
-                      label="Tiếng Việt"
-                      default
-                    />
-                    Trình duyệt không hỗ trợ video. Hãy đọc ví dụ và giải thích
-                    phía trên.
-                  </video>
+                  <>
+                    <video
+                      className="lesson-video"
+                      controls
+                      preload="metadata"
+                      aria-label={l.video.title}
+                    >
+                      <source src={l.video.url} type="video/mp4" />
+                      <track
+                        kind="captions"
+                        src={l.video.url.replace(".mp4", ".vtt")}
+                        srcLang="vi"
+                        label="Tiếng Việt"
+                        default
+                      />
+                      Trình duyệt không hỗ trợ video. Hãy đọc ví dụ và giải thích
+                      phía trên.
+                    </video>
+                    <p className="video-caption-note">
+                      Video không có lời thoại. Bật phụ đề tiếng Việt hoặc dừng
+                      lại để đọc từng phần.
+                    </p>
+                  </>
                 ) : videoOpen ? (
                   <iframe
                     className="lesson-video"
@@ -475,7 +500,10 @@ function ExerciseGame({ id, next }: { id: number; next: string }) {
       setResult(r);
       setAttempts(r.attempts);
       if (sound) playSound(r.passed);
-      if (r.passed) await refresh();
+      if (r.passed) {
+        fireConfetti();
+        await refresh();
+      }
     } catch (err) {
       setError((err as Error).message);
     } finally {
@@ -817,12 +845,29 @@ function RewardBurst() {
 }
 function CodingChallenge({ id }: { id: number }) {
   const q = useLoad<Challenge>(`/challenges/${id}`);
-  const { refresh } = useAuth();
+  const { refresh, user } = useAuth();
   const { dark } = usePreferences();
-  const [code, setCode] = useState<string | null>(null);
+  const draftKey = `codekid:draft:${user?.id ?? "guest"}:${id}`;
+  const [code, setCode] = useState<string | null>(() => {
+    try {
+      return localStorage.getItem(draftKey);
+    } catch {
+      return null;
+    }
+  });
+  const [draftSaved, setDraftSaved] = useState(true);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const [result, setResult] = useState<CodeResult | null>(null);
+  function saveDraft(value: string) {
+    setCode(value);
+    try {
+      localStorage.setItem(draftKey, value);
+      setDraftSaved(true);
+    } catch {
+      setDraftSaved(false);
+    }
+  }
   if (q.loading || q.error || !q.data)
     return <State loading={q.loading} error={q.error} retry={q.reload} />;
   const c = q.data;
@@ -836,7 +881,15 @@ function CodingChallenge({ id }: { id: number }) {
         practice,
       });
       setResult(r);
-      if (r.passed && !practice) await refresh();
+      if (r.passed && !practice) {
+        fireLevelUp();
+        await refresh();
+        try {
+          localStorage.removeItem(draftKey);
+        } catch {
+          setDraftSaved(false);
+        }
+      }
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -884,11 +937,19 @@ function CodingChallenge({ id }: { id: number }) {
             <select aria-label="Ngôn ngữ lập trình" value="python" disabled>
               <option value="python">Python 3</option>
             </select>
+            <span
+              className={`draft-status ${draftSaved ? "" : "draft-warning"}`}
+              role="status"
+            >
+              {draftSaved
+                ? "Tự lưu trên thiết bị này"
+                : "Không lưu được · đừng tải lại trang"}
+            </span>
           </div>
           <Suspense fallback={<State loading />}>
             <CodeEditor
               value={code ?? c.starterCode}
-              onChange={setCode}
+              onChange={saveDraft}
               dark={dark}
               disabled={busy}
             />

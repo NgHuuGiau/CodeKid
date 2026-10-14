@@ -115,7 +115,7 @@ test("real pointer drag rejects wrong answer, snaps back and fixes correct token
   await expect(page.getByText("Thêm một chút nữa nhé!")).toBeVisible();
   await page.getByRole("button", { name: "Gợi ý mức 1" }).click();
   await expect(
-    page.getByText("Đọc lại ví dụ của bài để xác định vai trò của ô này."),
+    page.getByText("print() là lệnh giúp hiện chữ lên màn hình."),
   ).toBeVisible();
   await page.getByRole("textbox", { name: "Ô trống 1" }).fill("print");
   await page.getByRole("button", { name: "Kiểm tra bài làm" }).click();
@@ -127,6 +127,30 @@ test("real pointer drag rejects wrong answer, snaps back and fixes correct token
     page.getByRole("heading", { name: "Lời chào đầu tiên" }),
   ).toBeVisible();
   await expect(page.locator(".monaco-editor")).toBeVisible();
+  await expect
+    .poll(() =>
+      page.locator(".monaco-editor .view-lines").evaluate((el) =>
+        Number.parseFloat(getComputedStyle(el).fontSize),
+      ),
+    )
+    .toBeGreaterThanOrEqual(18);
+  await page.locator(".monaco-editor").click();
+  await page.keyboard.press("Control+A");
+  await page.keyboard.type("print('draft-check')");
+  await expect
+    .poll(() =>
+      page.evaluate((prefix) => {
+        const key = Object.keys(localStorage).find((item) =>
+          item.startsWith(prefix),
+        );
+        return key ? localStorage.getItem(key) : null;
+      }, "codekid:draft:"),
+    )
+    .toBe("print('draft-check')");
+  await page.reload();
+  await expect(page.locator(".monaco-editor .view-lines")).toContainText(
+    "draft-check",
+  );
   await page.getByRole("button", { name: "Chạy thử", exact: true }).click();
   await expect(
     page.getByRole("alert").filter({ hasText: "Sandbox chưa sẵn sàng" }),
@@ -171,6 +195,11 @@ test("accessible alternative, touch-enabled sensors and replay never awards dupl
   ).toBeEnabled();
   await page.setViewportSize({ width: 390, height: 844 });
   expect(
+    await page.locator(".game-card > p:not([role='status'])").evaluate((el) =>
+      Number.parseFloat(getComputedStyle(el).fontSize),
+    ),
+  ).toBeGreaterThanOrEqual(15);
+  expect(
     await page.evaluate(
       () => document.documentElement.scrollWidth <= innerWidth,
     ),
@@ -200,7 +229,7 @@ test("lesson videos are actual playable MP4s with captions", async ({
     .toBeGreaterThan(0);
   expect(
     await video.evaluate((el) => (el as HTMLVideoElement).duration),
-  ).toBeGreaterThan(17);
+  ).toBeGreaterThan(29);
   await expect(video.locator("track")).toHaveAttribute("src", /\.vtt$/);
   await page.screenshot({
     path: path.join(artifacts, "lesson-video.png"),

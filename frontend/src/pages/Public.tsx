@@ -66,22 +66,46 @@ export function Landing() {
     <>
       <section className="hero">
         <div className="container hero-grid">
-          <div className="hero-copy">
-            <Pill>
-              <Sparkles size={14} /> Sẵn sàng cho một cuộc phiêu lưu mới?
-            </Pill>
-            <h1>
+          <motion.div
+            className="hero-copy"
+            initial={{ opacity: 0, x: -24 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+          >
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1, duration: 0.4 }}
+            >
+              <Pill>
+                <Sparkles size={14} className="art-spark spark-one" /> Sẵn sàng cho cuộc phiêu lưu công nghệ?
+              </Pill>
+            </motion.div>
+            <motion.h1
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2, duration: 0.5 }}
+            >
               Học lập trình thật vui.
               <br />
               <span>Thế giới Code</span>
               <br />
               đang chờ bạn!
-            </h1>
-            <p>
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3, duration: 0.5 }}
+            >
               Biến sự tò mò thành những dòng code đầu tiên. Cùng Kiki học, chơi
-              và chinh phục Python theo cách của riêng mình.
-            </p>
-            <div className="hero-buttons">
+              và chinh phục thế giới số theo phong cách của chính bạn!
+            </motion.p>
+            <motion.div
+              className="hero-buttons"
+              initial={{ opacity: 0, y: 14 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4, duration: 0.5 }}
+            >
               <Button asChild size="lg">
                 <Link to={user ? "/dashboard" : "/register"}>
                   Bắt đầu học miễn phí <ArrowRight size={18} />
@@ -92,49 +116,62 @@ export function Landing() {
                   <Play size={17} /> Khám phá cách học
                 </a>
               </Button>
-            </div>
+            </motion.div>
             <div className="hero-trust">
               <span>
-                <Check size={16} /> Học theo nhịp của bạn
+                <Check size={16} /> Học theo nhịp độ tự do
               </span>
               <span>
-                <ShieldCheck size={16} /> Dành cho 9–16 tuổi
+                <ShieldCheck size={16} /> Dành riêng cho học sinh 9–16 tuổi
               </span>
             </div>
             <div className="hero-stats">
-              <div>
+              <motion.div whileHover={{ scale: 1.05 }}>
                 <strong>12</strong>
-                <span>Bài học Python</span>
-              </div>
-              <div>
+                <span>Bài học tương tác</span>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }}>
                 <strong>3</strong>
-                <span>Chế độ thực hành</span>
-              </div>
-              <div>
+                <span>Chế độ phiêu lưu</span>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }}>
                 <strong>∞</strong>
                 <span>Ý tưởng sáng tạo</span>
-              </div>
+              </motion.div>
             </div>
-          </div>
-          <div className="hero-art">
+          </motion.div>
+          <motion.div
+            className="hero-art"
+            initial={{ opacity: 0, scale: 0.92 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
+          >
             <div className="orbit orbit-one" />
             <div className="orbit orbit-two" />
             <div className="art-grid" />
             <motion.div
               className="floating-code"
-              initial={{ y: 12, opacity: 0 }}
+              initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.4, duration: 0.6 }}
+              whileHover={{ scale: 1.06, rotate: 0 }}
             >
               <span className="window-dots">● ● ●</span>
               <code>
                 <span>print</span>(<b>"Hello, world!"</b>)
               </code>
               <small>
-                <Check size={13} /> Một ý tưởng vừa thành hiện thực
+                <Check size={13} /> Dòng code mở ra thế giới
               </small>
             </motion.div>
             <Robot />
-            <div className="xp-float">
+            <motion.div
+              className="xp-float"
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 0.5, duration: 0.6 }}
+              whileHover={{ scale: 1.08, rotate: 0 }}
+            >
               <span>
                 <Star size={22} />
               </span>
@@ -142,7 +179,7 @@ export function Landing() {
                 <b>+10 XP</b>
                 <small>Từng bước nhỏ đều đáng tự hào</small>
               </div>
-            </div>
+            </motion.div>
             <span className="art-label">
               <Sparkles size={15} /> Xin chào, mình là Kiki!
             </span>
@@ -150,7 +187,7 @@ export function Landing() {
             <Rocket className="art-symbol rocket-symbol" />
             <span className="art-spark spark-one">✦</span>
             <span className="art-spark spark-two">✦</span>
-          </div>
+          </motion.div>
         </div>
         <div className="container hero-strip">
           <span>
@@ -181,36 +218,43 @@ export function Landing() {
             <p>
               Từ làm quen đến tự tin viết code,
               <br />
-              mỗi chế độ giúp bạn tiến thêm một bước.
+              mỗi chế độ giúp bạn tiến thêm một bước vững chắc.
             </p>
           </div>
           <div className="mode-grid">
             {modes.map((m) => (
-              <Card key={m.n} className={`mode-card mode-${m.color}`}>
-                <div className="mode-top">
-                  <span className="mode-icon">
-                    <m.icon size={25} />
+              <motion.div
+                key={m.n}
+                whileHover={{ y: -8, scale: 1.015 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ duration: 0.22 }}
+              >
+                <Card className={`mode-card mode-${m.color}`}>
+                  <div className="mode-top">
+                    <span className="mode-icon">
+                      <m.icon size={25} />
+                    </span>
+                    <span className="mode-number">{m.n}</span>
+                  </div>
+                  <h3>{m.title}</h3>
+                  <p>{m.text}</p>
+                  <div className="mini-code">
+                    <code>{m.sample}</code>
+                    <span>▍</span>
+                  </div>
+                  <span className="mode-unlock">
+                    {m.n === "01" ? (
+                      <>
+                        <Zap size={14} /> Mở sau khi học lý thuyết
+                      </>
+                    ) : (
+                      <>
+                        <LockKeyhole size={14} /> Mở khi hoàn thành bước trước
+                      </>
+                    )}
                   </span>
-                  <span className="mode-number">{m.n}</span>
-                </div>
-                <h3>{m.title}</h3>
-                <p>{m.text}</p>
-                <div className="mini-code">
-                  <code>{m.sample}</code>
-                  <span>▍</span>
-                </div>
-                <span className="mode-unlock">
-                  {m.n === "01" ? (
-                    <>
-                      <Zap size={14} /> Mở sau khi học lý thuyết
-                    </>
-                  ) : (
-                    <>
-                      <LockKeyhole size={14} /> Mở khi hoàn thành bước trước
-                    </>
-                  )}
-                </span>
-              </Card>
+                </Card>
+              </motion.div>
             ))}
           </div>
         </div>
@@ -278,7 +322,13 @@ export function Landing() {
           </div>
         </div>
       </section>
-      <section className="container final-cta">
+      <motion.section
+        className="container final-cta"
+        initial={{ opacity: 0, y: 24 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.6 }}
+      >
         <div>
           <span className="eyebrow">MỖI CHUYÊN GIA TỪNG LÀ NGƯỜI MỚI</span>
           <h2>Dòng code đầu tiên của bạn là gì?</h2>
@@ -290,102 +340,113 @@ export function Landing() {
           </Button>
         </div>
         <Robot small />
-      </section>
+      </motion.section>
     </>
   );
 }
 export function LanguageCard({ l }: { l: Language }) {
   const { user } = useAuth();
   return (
-    <Card
-      className={
-        l.available ? "language-card available" : "language-card coming"
-      }
+    <motion.div
+      whileHover={{ y: -6, scale: 1.015 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ duration: 0.2 }}
     >
-      <div className="language-card-top">
-        <span
-          className="language-logo"
-          style={{ color: l.color, background: l.color + "18" }}
-        >
-          {l.slug === "python"
-            ? "Py"
-            : l.name === "JavaScript"
-              ? "JS"
-              : l.name === "HTML"
-                ? "</>"
-                : l.name === "CSS"
-                  ? "{ }"
-                  : l.name}
-        </span>
-        <Pill color={l.available ? "green" : "neutral"}>
-          {l.available ? "Sẵn sàng học" : "Sắp ra mắt"}
-        </Pill>
-      </div>
-      <h3>{l.name}</h3>
-      <p>{l.description}</p>
-      <div className="language-meta">
-        <span>{l.difficulty}</span>
-        <span>{l.available ? `${l.lessons} bài học` : "Đang chuẩn bị"}</span>
-      </div>
-      {l.available && user && (
-        <div className="language-progress">
-          <small>
-            {l.completed} / {l.lessons} bài hoàn thành
-          </small>
-          <ProgressBar
-            value={l.lessons ? (l.completed / l.lessons) * 100 : 0}
-            label={`Tiến độ ${l.name}`}
-          />
+      <Card
+        className={
+          l.available ? "language-card available" : "language-card coming"
+        }
+      >
+        <div className="language-card-top">
+          <span
+            className="language-logo"
+            style={{ color: l.color, background: l.color + "18" }}
+          >
+            {l.slug === "python"
+              ? "Py"
+              : l.name === "JavaScript"
+                ? "JS"
+                : l.name === "HTML"
+                  ? "</>"
+                  : l.name === "CSS"
+                    ? "{ }"
+                    : l.name}
+          </span>
+          <Pill color={l.available ? "green" : "neutral"}>
+            {l.available ? "Sẵn sàng học" : "Sắp ra mắt"}
+          </Pill>
         </div>
-      )}
-      {l.available ? (
-        <Button asChild variant="outline" className="full">
-          <Link to="/courses">
-            Bắt đầu học <ArrowRight size={16} />
-          </Link>
-        </Button>
-      ) : (
-        <Button disabled variant="outline" className="full">
-          <LockKeyhole size={14} /> Sắp ra mắt
-        </Button>
-      )}
-    </Card>
+        <h3>{l.name}</h3>
+        <p>{l.description}</p>
+        <div className="language-meta">
+          <span>{l.difficulty}</span>
+          <span>{l.available ? `${l.lessons} bài học` : "Đang chuẩn bị"}</span>
+        </div>
+        {l.available && user && (
+          <div className="language-progress">
+            <small>
+              {l.completed} / {l.lessons} bài hoàn thành
+            </small>
+            <ProgressBar
+              value={l.lessons ? (l.completed / l.lessons) * 100 : 0}
+              label={`Tiến độ ${l.name}`}
+            />
+          </div>
+        )}
+        {l.available ? (
+          <Button asChild variant="outline" className="full">
+            <Link to="/courses">
+              Bắt đầu học <ArrowRight size={16} />
+            </Link>
+          </Button>
+        ) : (
+          <Button disabled variant="outline" className="full">
+            <LockKeyhole size={14} /> Sắp ra mắt
+          </Button>
+        )}
+      </Card>
+    </motion.div>
   );
 }
 export function CourseCard({ c }: { c: Course }) {
   return (
-    <Card className="course-feature">
-      <div className="course-art">
-        <span className="python-mark">
-          Py<span>thon</span>
-        </span>
-        <Code2 size={68} />
-        <div className="course-art-dot" />
-      </div>
-      <div className="course-description">
-        <Pill color="green">Dành cho người mới bắt đầu</Pill>
-        <h3>{c.title}</h3>
-        <p>{c.description}</p>
-        <div className="course-meta">
-          <span>
-            <BookOpen size={16} />
-            {c.lessons ?? c.total} bài học
+    <motion.div
+      whileHover={{ y: -6, scale: 1.01 }}
+      transition={{ duration: 0.25 }}
+    >
+      <Card className="course-feature">
+        <div className="course-art">
+          <span className="python-mark">
+            Py<span>thon</span>
           </span>
-          <span>
-            <Grip size={16} />3 chế độ
-          </span>
-          <span>
-            <Star size={16} />
-            XP & huy hiệu
-          </span>
+          <Code2 size={68} />
+          <div className="course-art-dot" />
         </div>
-        <Button asChild>
-          <Link to={`/courses/${c.id}`}>
-            Khám phá khóa học <ArrowRight size={17} />
-          </Link>
-        </Button>
-      </div>
-    </Card>
+        <div className="course-description">
+          <Pill color="green">Dành cho người mới bắt đầu</Pill>
+          <h3>{c.title}</h3>
+          <p>{c.description}</p>
+          <div className="course-meta">
+            <span>
+              <BookOpen size={16} />
+              {c.lessons ?? c.total} bài học
+            </span>
+            <span>
+              <Grip size={16} />3 chế độ
+            </span>
+            <span>
+              <Star size={16} />
+              XP & huy hiệu
+            </span>
+          </div>
+          <Button asChild>
+            <Link to={`/courses/${c.id}`}>
+              Khám phá khóa học <ArrowRight size={17} />
+            </Link>
+          </Button>
+        </div>
+      </Card>
+    </motion.div>
   );
 }
 export function Courses({ languages = false }: { languages?: boolean }) {

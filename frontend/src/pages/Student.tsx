@@ -1,5 +1,6 @@
 import { useState, type FormEvent } from "react";
 import { Link } from "react-router-dom";
+import { motion } from "motion/react";
 import {
   ArrowRight,
   BookOpen,
@@ -74,53 +75,61 @@ export function StudentDashboard({
       {!badgesOnly && (
         <>
           <div className="stats-grid">
-            <Card>
-              <span className="stat-icon purple">
-                <Star />
-              </span>
-              <small>Tổng kinh nghiệm</small>
-              <strong>
-                {user?.xp ?? 0}
-                <span> XP</span>
-              </strong>
-              <ProgressBar
-                value={(user?.xp ?? 0) % 100}
-                label="Tiến độ lên cấp"
-              />
-            </Card>
-            <Card>
-              <span className="stat-icon blue">
-                <Rocket />
-              </span>
-              <small>Cấp độ hiện tại</small>
-              <strong>
-                {user?.level ?? 1}
-                <span> Nhà thám hiểm</span>
-              </strong>
-              <p>{100 - ((user?.xp ?? 0) % 100)} XP đến cấp tiếp theo</p>
-            </Card>
-            <Card>
-              <span className="stat-icon green">
-                <BookOpen />
-              </span>
-              <small>Bài học hoàn thành</small>
-              <strong>
-                {completed}
-                <span> bài học</span>
-              </strong>
-              <p>Từng bước tiến đều đáng tự hào</p>
-            </Card>
-            <Card>
-              <span className="stat-icon orange">
-                <Trophy />
-              </span>
-              <small>Huy hiệu đã nhận</small>
-              <strong>
-                {d.badges.filter((x) => x.earned).length}
-                <span> / {d.badges.length}</span>
-              </strong>
-              <p>Thành quả của sự tò mò</p>
-            </Card>
+            <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Card>
+                <span className="stat-icon purple">
+                  <Star />
+                </span>
+                <small>Tổng kinh nghiệm</small>
+                <strong>
+                  {user?.xp ?? 0}
+                  <span> XP</span>
+                </strong>
+                <ProgressBar
+                  value={(user?.xp ?? 0) % 100}
+                  label="Tiến độ lên cấp"
+                />
+              </Card>
+            </motion.div>
+            <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Card>
+                <span className="stat-icon blue">
+                  <Rocket />
+                </span>
+                <small>Cấp độ hiện tại</small>
+                <strong>
+                  {user?.level ?? 1}
+                  <span> Nhà thám hiểm</span>
+                </strong>
+                <p>{100 - ((user?.xp ?? 0) % 100)} XP đến cấp tiếp theo</p>
+              </Card>
+            </motion.div>
+            <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Card>
+                <span className="stat-icon green">
+                  <BookOpen />
+                </span>
+                <small>Bài học hoàn thành</small>
+                <strong>
+                  {completed}
+                  <span> bài học</span>
+                </strong>
+                <p>Từng bước tiến đều đáng tự hào</p>
+              </Card>
+            </motion.div>
+            <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+              <Card>
+                <span className="stat-icon orange">
+                  <Trophy />
+                </span>
+                <small>Huy hiệu đã nhận</small>
+                <strong>
+                  {d.badges.filter((x) => x.earned).length}
+                  <span> / {d.badges.length}</span>
+                </strong>
+                <p>Thành quả của sự tò mò</p>
+              </Card>
+            </motion.div>
           </div>
           <div className="dashboard-grid">
             <div>
@@ -262,30 +271,36 @@ function BadgeCard({ badge: b, xp }: { badge: Badge; xp: number }) {
           ? Code2
           : Star;
   return (
-    <Card className={b.earned ? "badge-card earned" : "badge-card"}>
-      <span className="badge-medal">
-        <Icon size={29} />
-      </span>
-      <h3>{b.title}</h3>
-      <p>{b.description}</p>
-      <Pill color={b.earned ? "green" : "neutral"}>
-        {b.earned ? (
-          <>
-            <Check size={12} /> Đã nhận
-          </>
-        ) : (
-          <>
-            <LockKeyhole size={12} /> {b.requiredXp} XP
-          </>
+    <motion.div
+      whileHover={{ y: -6, scale: 1.03 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ duration: 0.2 }}
+    >
+      <Card className={b.earned ? "badge-card earned badge-unlocked" : "badge-card"}>
+        <span className="badge-medal">
+          <Icon size={29} />
+        </span>
+        <h3>{b.title}</h3>
+        <p>{b.description}</p>
+        <Pill color={b.earned ? "green" : "neutral"}>
+          {b.earned ? (
+            <>
+              <Check size={12} /> Đã nhận
+            </>
+          ) : (
+            <>
+              <LockKeyhole size={12} /> {b.requiredXp} XP
+            </>
+          )}
+        </Pill>
+        {!b.earned && (
+          <ProgressBar
+            value={(xp / b.requiredXp) * 100}
+            label={`Tiến độ huy hiệu ${b.title}`}
+          />
         )}
-      </Pill>
-      {!b.earned && (
-        <ProgressBar
-          value={(xp / b.requiredXp) * 100}
-          label={`Tiến độ huy hiệu ${b.title}`}
-        />
-      )}
-    </Card>
+      </Card>
+    </motion.div>
   );
 }
 export function RoadmapPage({ id }: { id: string }) {
