@@ -1,0 +1,54 @@
+services:
+  db:
+    image: postgres:17-alpine
+    environment:
+      POSTGRES_DB: codekid
+      POSTGRES_USER: codekid
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?Đặt DB_PASSWORD trong .env}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U codekid -d codekid"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    networks: [database]
+    restart: unless-stopped
+  api:
+    build: .
+    ports: ["127.0.0.1:8080:8080"]
+    environment:
+      DatabaseProvider: Postgres
+      ConnectionStrings__Default: Host=db;Database=codekid;Username=codekid;Password=${DB_PASSWORD}
+      Runner__Url: http://runner:8091
+      Runner__Secret: ${RUNNER_SECRET:?Đặt RUNNER_SECRET ngẫu nhiên ít nhất 32 ký tự}
+      PublicUrl: ${PUBLIC_URL:-http://localhost:8080}
+      SeedAdmin__Email: ${ADMIN_EMAIL:?Đặt ADMIN_EMAIL}
+      SeedAdmin__Password: ${ADMIN_PASSWORD:?Đặt ADMIN_PASSWORD đủ mạnh}
+      AllowedHosts: ${ALLOWED_HOSTS:-localhost;127.0.0.1;api}
+      Mail__Host: ${SMTP_HOST:-}
+      Mail__Port: ${SMTP_PORT:-587}
+      Mail__User: ${SMTP_USER:-}
+      Mail__Password: ${SMTP_PASSWORD:-}
+      Mail__From: ${SMTP_FROM:-}
+    volumes: ["keys:/app/keys"]
+    depends_on:
+      db: {condition: service_healthy}
+      runner: {condition: service_started}
+    networks: [database, grading, outbound]
+    restart: unless-stopped
+  runner:
+    build: runner
+    environment:
+      RUNNER_SECRET: ${RUNNER_SECRET}
+      RUNNER_IMAGE: ${RUNNER_IMAGE:-python:3.13-alpine}
+    volumes: ["/var/run/docker.sock:/var/run/docker.sock"]
+    networks: [grading]
+    restart: unless-stopped
+networks:
+  database: {internal: true}
+  grading: {internal: true}
+  outbound: {}
+volumes:
+  postgres-data: {}
+  keys: {}

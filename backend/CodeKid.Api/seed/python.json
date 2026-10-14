@@ -1,0 +1,1017 @@
+[
+  {
+    "title": "Làm quen Python",
+    "objectives": "Hiểu làm quen python, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Python là ngôn ngữ giúp mình giao tiếp với máy tính. Một chương trình gồm các lệnh chạy theo thứ tự từ trên xuống dưới.",
+    "example": "print(\"Xin chào CodeKid\")",
+    "notes": "Python phân biệt chữ hoa và chữ thường. Mỗi lệnh thường nằm trên một dòng.",
+    "quiz": "Ngôn ngữ nào chúng ta đang học?",
+    "quizOptions": [
+      "Python",
+      "Tiếng robot",
+      "CSS"
+    ],
+    "quizAnswer": 0,
+    "level": 1,
+    "template": "{{0}}(\"Xin chào CodeKid\")",
+    "answers": [
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "print",
+      "input",
+      "while",
+      "return"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Lời chào đầu tiên",
+    "challengeDescription": "In chính xác dòng Xin chào CodeKid, không cần nhập dữ liệu.",
+    "tests": [
+      {
+        "input": "",
+        "expected": "Xin chào CodeKid\n",
+        "isSample": true
+      },
+      {
+        "input": "",
+        "expected": "Xin chào CodeKid\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-1.mp4"
+  },
+  {
+    "title": "Lệnh print()",
+    "objectives": "Hiểu lệnh print(), đọc ví dụ và tự giải bài tập.",
+    "explanation": "print() đưa nội dung ra màn hình. Văn bản nằm trong dấu nháy; cặp ngoặc tròn chứa nội dung cần in.",
+    "example": "print(\"Hello World\")",
+    "notes": "Dấu nháy đơn và nháy kép đều dùng được cho chuỗi.",
+    "quiz": "Lệnh nào hiển thị nội dung?",
+    "quizOptions": [
+      "input()",
+      "print()",
+      "while"
+    ],
+    "quizAnswer": 1,
+    "level": 2,
+    "template": "print({{0}})",
+    "answers": [
+      [
+        "\"Hello World\"",
+        "'Hello World'"
+      ]
+    ],
+    "options": [
+      "\"Hello World\"",
+      "Hello World",
+      "input",
+      "\"Tạm biệt\""
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 13 ký tự.",
+        "Bắt đầu bằng: \""
+      ]
+    ],
+    "challengeTitle": "Hello World",
+    "challengeDescription": "In Hello World trên một dòng.",
+    "tests": [
+      {
+        "input": "",
+        "expected": "Hello World\n",
+        "isSample": true
+      },
+      {
+        "input": "",
+        "expected": "Hello World\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-2.mp4"
+  },
+  {
+    "title": "Biến và kiểu dữ liệu",
+    "objectives": "Hiểu biến và kiểu dữ liệu, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Biến là một nhãn để giữ dữ liệu. Python có số nguyên int, số thực float, chuỗi str và giá trị đúng/sai bool. Dùng dấu = để gán.",
+    "example": "name = \"CodeKid\"\nprint(name)",
+    "notes": "Tên biến không bắt đầu bằng chữ số. Không dùng tên trùng từ khóa Python.",
+    "quiz": "age = 12 đang lưu kiểu dữ liệu nào?",
+    "quizOptions": [
+      "Chuỗi",
+      "Số nguyên",
+      "Danh sách"
+    ],
+    "quizAnswer": 1,
+    "level": 6,
+    "template": "name {{0}} \"CodeKid\"\nprint({{1}})",
+    "answers": [
+      [
+        "="
+      ],
+      [
+        "name"
+      ]
+    ],
+    "options": [
+      "=",
+      "name",
+      "==",
+      "input",
+      "age"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: ="
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 4 ký tự.",
+        "Bắt đầu bằng: n"
+      ]
+    ],
+    "challengeTitle": "Lưu một biệt danh",
+    "challengeDescription": "Tạo biến name chứa CodeKid và in giá trị của biến đó.",
+    "tests": [
+      {
+        "input": "",
+        "expected": "CodeKid\n",
+        "isSample": true
+      },
+      {
+        "input": "",
+        "expected": "CodeKid\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-3.mp4"
+  },
+  {
+    "title": "Lệnh input()",
+    "objectives": "Hiểu lệnh input(), đọc ví dụ và tự giải bài tập.",
+    "explanation": "input() đọc một dòng do người dùng nhập. Kết quả luôn là chuỗi. Trong bài chấm tự động, dùng input() không kèm lời nhắc để đầu ra không bị thừa.",
+    "example": "name = input()\nprint(name)",
+    "notes": "Có thể dùng int(input()) để chuyển chuỗi thành số nguyên.",
+    "quiz": "input() trả về dữ liệu kiểu gì?",
+    "quizOptions": [
+      "Số nguyên",
+      "Chuỗi",
+      "Luôn đúng"
+    ],
+    "quizAnswer": 1,
+    "level": 7,
+    "template": "name = {{0}}()\n{{1}}(name)",
+    "answers": [
+      [
+        "input"
+      ],
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "input",
+      "print",
+      "while",
+      "return"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Lời chào cá nhân",
+    "challengeDescription": "Đọc một dòng tên. In Xin chào, theo sau bởi một dấu cách và tên vừa nhập.",
+    "tests": [
+      {
+        "input": "An\n",
+        "expected": "Xin chào An\n",
+        "isSample": true
+      },
+      {
+        "input": "Binh\n",
+        "expected": "Xin chào Binh\n",
+        "isSample": false
+      },
+      {
+        "input": "Robot\n",
+        "expected": "Xin chào Robot\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-4.mp4"
+  },
+  {
+    "title": "Phép toán",
+    "objectives": "Hiểu phép toán, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Python có +, -, *, / và % (chia lấy dư). Với số nguyên, hãy chuyển input() bằng int trước khi tính toán.",
+    "example": "a = int(input())\nb = int(input())\nprint(a + b)",
+    "notes": "Dấu + cộng số nhưng nối chuỗi. % giúp kiểm tra chẵn/lẻ.",
+    "quiz": "7 % 2 bằng bao nhiêu?",
+    "quizOptions": [
+      "0",
+      "1",
+      "3"
+    ],
+    "quizAnswer": 1,
+    "level": 11,
+    "template": "a = {{0}}(input())\nb = {{1}}(input())\nprint(a {{2}} b)",
+    "answers": [
+      [
+        "int"
+      ],
+      [
+        "int"
+      ],
+      [
+        "+"
+      ]
+    ],
+    "options": [
+      "int",
+      "+",
+      "str",
+      "-",
+      "/"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: +"
+      ]
+    ],
+    "challengeTitle": "Cộng hai số",
+    "challengeDescription": "Nhập hai số nguyên, mỗi số trên một dòng. In tổng của chúng.",
+    "tests": [
+      {
+        "input": "2\n3\n",
+        "expected": "5\n",
+        "isSample": true
+      },
+      {
+        "input": "-4\n9\n",
+        "expected": "5\n",
+        "isSample": false
+      },
+      {
+        "input": "0\n0\n",
+        "expected": "0\n",
+        "isSample": false
+      },
+      {
+        "input": "100\n-100\n",
+        "expected": "0\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-5.mp4"
+  },
+  {
+    "title": "Điều kiện if/else",
+    "objectives": "Hiểu điều kiện if/else, đọc ví dụ và tự giải bài tập.",
+    "explanation": "if thực hiện một nhóm lệnh khi điều kiện đúng; else xử lý trường hợp còn lại. Sau điều kiện có dấu hai chấm, các lệnh bên trong phải thụt vào.",
+    "example": "n = int(input())\nif n % 2 == 0:\n    print(\"Chẵn\")\nelse:\n    print(\"Lẻ\")",
+    "notes": "Dùng == để so sánh, = để gán. Thụt vào nhất quán 4 dấu cách.",
+    "quiz": "Từ khóa nào chạy khi điều kiện if sai?",
+    "quizOptions": [
+      "for",
+      "else",
+      "print"
+    ],
+    "quizAnswer": 1,
+    "level": 12,
+    "template": "n = int(input())\n{{0}} n % 2 {{1}} 0:\n    print(\"Chẵn\")\n{{2}}:\n    print(\"Lẻ\")",
+    "answers": [
+      [
+        "if"
+      ],
+      [
+        "=="
+      ],
+      [
+        "else"
+      ]
+    ],
+    "options": [
+      "if",
+      "==",
+      "else",
+      "=",
+      "for"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: ="
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 4 ký tự.",
+        "Bắt đầu bằng: e"
+      ]
+    ],
+    "challengeTitle": "Chẵn hay lẻ?",
+    "challengeDescription": "Đọc một số nguyên. In CHAN nếu chẵn, LE nếu lẻ. Dùng chữ hoa không dấu.",
+    "tests": [
+      {
+        "input": "8\n",
+        "expected": "CHAN\n",
+        "isSample": true
+      },
+      {
+        "input": "7\n",
+        "expected": "LE\n",
+        "isSample": false
+      },
+      {
+        "input": "0\n",
+        "expected": "CHAN\n",
+        "isSample": false
+      },
+      {
+        "input": "-3\n",
+        "expected": "LE\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-6.mp4"
+  },
+  {
+    "title": "Vòng lặp for",
+    "objectives": "Hiểu vòng lặp for, đọc ví dụ và tự giải bài tập.",
+    "explanation": "for lặp qua một dãy giá trị. range(n) tạo các số từ 0 đến n-1. range(1, n+1) tạo từ 1 đến n.",
+    "example": "n = int(input())\nfor i in range(1, n + 1):\n    print(i)",
+    "notes": "Giới hạn cuối của range không được đưa vào dãy.",
+    "quiz": "range(3) tạo các giá trị nào?",
+    "quizOptions": [
+      "1, 2, 3",
+      "0, 1, 2",
+      "0, 1, 2, 3"
+    ],
+    "quizAnswer": 1,
+    "level": 16,
+    "template": "n = {{0}}(input())\n{{1}} i {{2}} {{3}}(1, n + 1):\n    {{4}}(i)",
+    "answers": [
+      [
+        "int"
+      ],
+      [
+        "for"
+      ],
+      [
+        "in"
+      ],
+      [
+        "range"
+      ],
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "int",
+      "for",
+      "in",
+      "range",
+      "print",
+      "while",
+      "return"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: f"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: r"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Đếm từng bước",
+    "challengeDescription": "Đọc số nguyên n (1 ≤ n ≤ 20). In từ 1 đến n, mỗi số một dòng.",
+    "tests": [
+      {
+        "input": "3\n",
+        "expected": "1\n2\n3\n",
+        "isSample": true
+      },
+      {
+        "input": "1\n",
+        "expected": "1\n",
+        "isSample": false
+      },
+      {
+        "input": "5\n",
+        "expected": "1\n2\n3\n4\n5\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-7.mp4"
+  },
+  {
+    "title": "Vòng lặp while",
+    "objectives": "Hiểu vòng lặp while, đọc ví dụ và tự giải bài tập.",
+    "explanation": "while lặp khi điều kiện còn đúng. Cập nhật biến trong vòng lặp để điều kiện có thể trở thành sai.",
+    "example": "n = int(input())\nwhile n > 0:\n    print(n)\n    n -= 1",
+    "notes": "Vòng lặp quên cập nhật biến có thể chạy mãi; sandbox sẽ dừng chương trình quá thời gian.",
+    "quiz": "Làm gì để vòng lặp while kết thúc?",
+    "quizOptions": [
+      "Đổi điều kiện thành sai",
+      "Bỏ mọi dấu cách",
+      "Thêm print mãi"
+    ],
+    "quizAnswer": 0,
+    "level": 17,
+    "template": "n = {{0}}(input())\n{{1}} n {{2}} 0:\n    {{3}}(n)\n    n {{4}} 1",
+    "answers": [
+      [
+        "int"
+      ],
+      [
+        "while"
+      ],
+      [
+        ">"
+      ],
+      [
+        "print"
+      ],
+      [
+        "-="
+      ]
+    ],
+    "options": [
+      "int",
+      "while",
+      ">",
+      "print",
+      "-=",
+      "for",
+      "<",
+      "+="
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: w"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: >"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: -"
+      ]
+    ],
+    "challengeTitle": "Đếm ngược",
+    "challengeDescription": "Đọc số nguyên n (0 ≤ n ≤ 20). In n, n-1, ... đến 1. Nếu n = 0 thì không in gì.",
+    "tests": [
+      {
+        "input": "3\n",
+        "expected": "3\n2\n1\n",
+        "isSample": true
+      },
+      {
+        "input": "0\n",
+        "expected": "",
+        "isSample": false
+      },
+      {
+        "input": "1\n",
+        "expected": "1\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-8.mp4"
+  },
+  {
+    "title": "Danh sách",
+    "objectives": "Hiểu danh sách, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Danh sách lưu nhiều giá trị trong cặp ngoặc vuông. Vị trí đầu tiên có chỉ số 0. Dùng append để thêm phần tử và len để lấy độ dài.",
+    "example": "numbers = [2, 4, 6]\nnumbers.append(8)\nprint(numbers[0])\nprint(len(numbers))",
+    "notes": "Không truy cập phần tử ngoài chỉ số từ 0 đến len(list)-1.",
+    "quiz": "Chỉ số phần tử đầu tiên là gì?",
+    "quizOptions": [
+      "1",
+      "0",
+      "-2"
+    ],
+    "quizAnswer": 1,
+    "level": 18,
+    "template": "numbers = {{0}}2, 4, 6{{1}}\nnumbers.{{2}}(8)\n{{3}}(numbers[0])\nprint({{4}}(numbers))",
+    "answers": [
+      [
+        "["
+      ],
+      [
+        "]"
+      ],
+      [
+        "append"
+      ],
+      [
+        "print"
+      ],
+      [
+        "len"
+      ]
+    ],
+    "options": [
+      "[",
+      "]",
+      "append",
+      "print",
+      "len",
+      "pop",
+      "input"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: ["
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: ]"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 6 ký tự.",
+        "Bắt đầu bằng: a"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: l"
+      ]
+    ],
+    "challengeTitle": "Tổng danh sách",
+    "challengeDescription": "Đọc một dòng các số nguyên cách nhau bởi dấu cách. In tổng các số; dòng trống có tổng bằng 0.",
+    "tests": [
+      {
+        "input": "2 4 6\n",
+        "expected": "12\n",
+        "isSample": true
+      },
+      {
+        "input": "-1 0 5\n",
+        "expected": "4\n",
+        "isSample": false
+      },
+      {
+        "input": "\n",
+        "expected": "0\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-9.mp4"
+  },
+  {
+    "title": "Hàm",
+    "objectives": "Hiểu hàm, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Hàm gom các lệnh để dùng lại. def khai báo hàm, tham số nhận dữ liệu và return trả về kết quả. Sau khi định nghĩa, gọi hàm bằng tên và ngoặc.",
+    "example": "def add(a, b):\n    return a + b\nx = int(input())\ny = int(input())\nprint(add(x, y))",
+    "notes": "return kết thúc hàm; print chỉ hiển thị. Định nghĩa hàm trước khi gọi.",
+    "quiz": "Từ khóa nào trả kết quả của hàm?",
+    "quizOptions": [
+      "print",
+      "return",
+      "input"
+    ],
+    "quizAnswer": 1,
+    "level": 21,
+    "template": "{{0}} add(a, b):\n    {{1}} a {{2}} b\nx = {{3}}({{4}}())\ny = {{5}}({{6}}())\n{{7}}(add(x, y))",
+    "answers": [
+      [
+        "def"
+      ],
+      [
+        "return"
+      ],
+      [
+        "+"
+      ],
+      [
+        "int"
+      ],
+      [
+        "input"
+      ],
+      [
+        "int"
+      ],
+      [
+        "input"
+      ],
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "def",
+      "return",
+      "+",
+      "int",
+      "input",
+      "print",
+      "class",
+      "-"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: d"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 6 ký tự.",
+        "Bắt đầu bằng: r"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: +"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Tính bình phương",
+    "challengeDescription": "Viết hàm square(n) trả về n*n. Đọc một số nguyên và in square(n).",
+    "tests": [
+      {
+        "input": "4\n",
+        "expected": "16\n",
+        "isSample": true
+      },
+      {
+        "input": "-3\n",
+        "expected": "9\n",
+        "isSample": false
+      },
+      {
+        "input": "0\n",
+        "expected": "0\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-10.mp4"
+  },
+  {
+    "title": "Xử lý chuỗi",
+    "objectives": "Hiểu xử lý chuỗi, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Chuỗi có các phương thức strip() bỏ khoảng trắng hai đầu, upper() đổi chữ hoa, lower() đổi chữ thường. len() đếm số ký tự; có thể lặp qua chuỗi.",
+    "example": "text = input().strip()\nprint(text.upper())\nprint(len(text))",
+    "notes": "Chuỗi không tự đổi: phương thức trả về chuỗi mới, nên dùng giá trị trả về.",
+    "quiz": "Phương thức nào đổi chuỗi thành chữ hoa?",
+    "quizOptions": [
+      "strip()",
+      "upper()",
+      "lower()"
+    ],
+    "quizAnswer": 1,
+    "level": 22,
+    "template": "text = {{0}}().{{1}}()\n{{2}}(text.{{3}}())\nprint({{4}}(text))\n{{5}} char {{6}} text:\n    {{7}}(char)",
+    "answers": [
+      [
+        "input"
+      ],
+      [
+        "strip"
+      ],
+      [
+        "print"
+      ],
+      [
+        "upper"
+      ],
+      [
+        "len"
+      ],
+      [
+        "for"
+      ],
+      [
+        "in"
+      ],
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "input",
+      "strip",
+      "print",
+      "upper",
+      "len",
+      "for",
+      "in",
+      "lower",
+      "while"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: s"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: u"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: l"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: f"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Chuỗi gọn gàng",
+    "challengeDescription": "Đọc một dòng văn bản. Bỏ khoảng trắng hai đầu, in phiên bản chữ hoa, rồi in độ dài chuỗi đã bỏ khoảng trắng trên dòng tiếp theo.",
+    "tests": [
+      {
+        "input": "  CodeKid  \n",
+        "expected": "CODEKID\n7\n",
+        "isSample": true
+      },
+      {
+        "input": "hello\n",
+        "expected": "HELLO\n5\n",
+        "isSample": false
+      },
+      {
+        "input": "   \n",
+        "expected": "\n0\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-11.mp4"
+  },
+  {
+    "title": "Bài tập tổng hợp",
+    "objectives": "Hiểu bài tập tổng hợp, đọc ví dụ và tự giải bài tập.",
+    "explanation": "Kết hợp nhập dữ liệu, danh sách, vòng lặp, điều kiện và hàm. Chia bài toán thành từng bước nhỏ: đọc, xử lý, hiển thị. Thử trường hợp đơn giản, số âm và danh sách rỗng.",
+    "example": "def sum_even(numbers):\n    total = 0\n    for n in numbers:\n        if n % 2 == 0:\n            total += n\n    return total\nnumbers = list(map(int, input().split()))\nprint(sum_even(numbers))",
+    "notes": "Chấm code kiểm tra nhiều bộ dữ liệu. Không in lời nhắc hoặc nội dung thừa.",
+    "quiz": "Để cộng các số chẵn, kiểm tra điều kiện gì?",
+    "quizOptions": [
+      "n % 2 == 0",
+      "n > 0",
+      "n == 1"
+    ],
+    "quizAnswer": 0,
+    "level": 23,
+    "template": "{{0}} sum_even(numbers):\n    total = {{1}}\n    {{2}} n {{3}} numbers:\n        {{4}} n % {{5}} == {{6}}:\n            total {{7}} n\n    {{8}} total\nnumbers = list(map({{9}}, input().split()))\n{{10}}(sum_even(numbers))",
+    "answers": [
+      [
+        "def"
+      ],
+      [
+        "0"
+      ],
+      [
+        "for"
+      ],
+      [
+        "in"
+      ],
+      [
+        "if"
+      ],
+      [
+        "2"
+      ],
+      [
+        "0"
+      ],
+      [
+        "+="
+      ],
+      [
+        "return"
+      ],
+      [
+        "int"
+      ],
+      [
+        "print"
+      ]
+    ],
+    "options": [
+      "def",
+      "0",
+      "for",
+      "in",
+      "if",
+      "2",
+      "+=",
+      "return",
+      "int",
+      "print",
+      "while",
+      "str"
+    ],
+    "hints": [
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: d"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: 0"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: f"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: 2"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Đây là một ký hiệu toán học hoặc dấu cú pháp.",
+        "Bắt đầu bằng: 0"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 2 ký tự.",
+        "Bắt đầu bằng: +"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 6 ký tự.",
+        "Bắt đầu bằng: r"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 3 ký tự.",
+        "Bắt đầu bằng: i"
+      ],
+      [
+        "Đọc lại ví dụ của bài để xác định vai trò của ô này.",
+        "Từ cần gõ có 5 ký tự.",
+        "Bắt đầu bằng: p"
+      ]
+    ],
+    "challengeTitle": "Chinh phục hành tinh Python",
+    "challengeDescription": "Đọc một dòng số nguyên cách nhau bởi dấu cách. In tổng các số chẵn, kể cả số âm. Dòng trống có tổng bằng 0.",
+    "tests": [
+      {
+        "input": "1 2 3 4 5 6\n",
+        "expected": "12\n",
+        "isSample": true
+      },
+      {
+        "input": "-2 3 8\n",
+        "expected": "6\n",
+        "isSample": false
+      },
+      {
+        "input": "1 3 5\n",
+        "expected": "0\n",
+        "isSample": false
+      },
+      {
+        "input": "\n",
+        "expected": "0\n",
+        "isSample": false
+      }
+    ],
+    "videoUrl": "/videos/lesson-12.mp4"
+  }
+]

@@ -1,0 +1,12 @@
+**/node_modules
+**/dist
+**/bin
+**/obj
+**/*.db*
+**/mailbox
+**/keys
+artifacts
+.git
+.env
+frontend/test-results
+frontend/playwright-report

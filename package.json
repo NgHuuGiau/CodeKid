@@ -1,0 +1,12 @@
+{
+  "name": "codekid-academy",
+  "private": true,
+  "scripts": {
+    "start": "node scripts/dev.mjs",
+    "dev": "npm --prefix frontend run dev",
+    "build": "npm --prefix frontend run build",
+    "test": "node --test tests/api.test.mjs",
+    "test:ui": "npm --prefix frontend run test:ui",
+    "api": "dotnet run --project backend/CodeKid.Api --no-launch-profile -- --environment Development"
+  }
+}
