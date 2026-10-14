@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.DataProtection;
 using System.Threading.RateLimiting;
 
-var builder = WebApplication.CreateBuilder(args);
+var syncPythonSeed = args.Contains("--sync-python-seed", StringComparer.Ordinal);
+var builder = WebApplication.CreateBuilder(args.Where(x => x != "--sync-python-seed").ToArray());
 builder.Services.AddDbContext<AppDb>(o =>
 {
     var cs = builder.Configuration.GetConnectionString("Default")!;
@@ -79,8 +80,15 @@ app.MapFallbackToFile("index.html");
 await using (var scope = app.Services.CreateAsyncScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDb>();
+    if (syncPythonSeed && app.Configuration["DatabaseProvider"] == "Postgres")
+        throw new InvalidOperationException("Đồng bộ seed chỉ hỗ trợ SQLite. Với PostgreSQL, hãy sao lưu bằng pg_dump và cập nhật nội dung qua trang quản trị.");
     if (app.Configuration["DatabaseProvider"] == "Postgres") await db.Database.MigrateAsync();
     else await db.Database.EnsureCreatedAsync();
+    if (syncPythonSeed)
+    {
+        await Seed.SyncPythonContent(db, app.Environment.ContentRootPath);
+        return;
+    }
     await Seed.Initialize(scope.ServiceProvider, app.Environment, app.Configuration);
 }
 app.Run();
