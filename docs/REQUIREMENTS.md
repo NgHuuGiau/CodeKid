@@ -15,8 +15,8 @@ Ngày: 15/10/2026, Asia/Saigon. “Đã triển khai” và “đã kiểm thử
 | Kéo thả | Pointer/touch, Space+arrows, Enter chọn/điền thay thế; hover, sai về bank, đúng cố định; âm, XP, reset/next | Browser kéo chuột đúng/sai, Enter, retry không XP trùng; touch vật lý chưa test |
 | Nhiều ô/cấp độ | Level 1–5:1, 6–10:2, 11–15:3–4, 16–20:5–7, 21+:8–12 | Seed đến level 23/11 ô; validation và API kiểm tra mọi hoạt động |
 | Tự gõ | Không bank, ô theo độ dài/Tab, chấm từng ô, gợi ý 3 mức, lần thử; đáp án thay thế | Browser sai/đúng/gợi ý; API trim và không reveal đáp án; chuỗi nhận nháy đơn/kép bằng dữ liệu |
-| Viết code | Đề/IO, Monaco tự host/Python, chạy mẫu/nộp đầy đủ, errors/results, submissions, test ẩn | API test double kiểm tra grading/XP/privacy; browser editor và 503; Docker chưa chạy |
-| Sandbox | Dịch vụ riêng, container user không root, không mạng/read-only, CPU/RAM/PID/wall/output limits | Có test_sandbox; Docker lỗi socket nên chưa xác nhận isolation thực tế |
+| Viết code | Đề/IO, Monaco tự host/Python, chạy mẫu/nộp đầy đủ, errors/results, submissions, test ẩn | API test double kiểm tra grading/XP/privacy; browser editor và 503; 7 test runner/sandbox Docker thật đã qua |
+| Sandbox | Dịch vụ riêng, container user không root, không mạng/read-only, CPU/RAM/PID/wall/output limits, health báo Docker engine | Health check và unit fail-closed; Docker lỗi socket nên chưa xác nhận isolation thực tế |
 | Mở khóa/XP | Theory→drag→memory→challenge, ≥80%, next lesson, +10/20/30/+50, ledger unique/transaction/Postgres lock | API concurrent completions chỉ cấp XP một lần; PostgreSQL lock chưa test thật |
 | Gamification | Level/XP, huy hiệu, nhiệm vụ, progress, hoạt ảnh, leaderboard biệt danh, mascot/gợi ý tích cực | API badges/opt-in; không streak ép học, không trừ XP khi sai |
 | Teacher/Admin | Dashboard/content ownership; khóa/chương/bài/video/questions/answers/challenges/tests/XP/badges; roles/lock; classes/progress; errors/report | API phân quyền/ownership; browser staff forms; test đã có lịch sử giữ nguyên |
@@ -26,20 +26,21 @@ Ngày: 15/10/2026, Asia/Saigon. “Đã triển khai” và “đã kiểm thử
 
 ## Kiểm thử đã chạy
 
-- Backend build: không warning/error ở lần kiểm tra.
-- TypeScript + Vite build; editor tải riêng khi mở viết code.
+- Backend build: không lỗi biên dịch; NU1900 vì không truy cập được nguồn advisory NuGet.
+- TypeScript + Vite build; editor tải riêng khi mở bước viết code, cỡ chữ 18px. Chunk editor 2.3 MB (596 KB gzip), chưa giảm thêm vì Monaco đã không nằm trong bundle trang đầu.
 - API: 22 checks (21 subtest + test tổng) qua, Identity và SQLite thật. Runner test double không thực thi code.
 - Browser: 8 luồng qua sau khi sửa tràn mobile, stale unlock và Enter; chuột, keyboard, touch giả lập, video, profile, staff, lỗi API.
-- Runner unit: 2 test qua cho validation và so sánh output.
+- Runner unit: 3 test qua cho validation, so sánh output và trạng thái kết nối Docker (được giả lập; không thay thế sandbox integration test).
 - Curriculum: tất cả test case của 12 lời giải mẫu qua, chỉ chạy code fixture do dự án viết.
-- Audit: .NET và frontend runtime không có vulnerability được báo ở lần kiểm tra.
+- Seed sync: chạy trên SQLite thử và DB phát triển; backup online được tạo, tiến độ/lịch sử/XP giữ nguyên, integrity và foreign keys sạch.
+- Audit dependency trực tuyến: chưa xác minh được trạng thái advisory .NET vì nguồn NuGet không truy cập được; chưa có kết quả sandbox Docker thực.
 
 ## Chưa thể đánh dấu hoàn tất
 
-1. Docker Desktop không khởi động do lỗi `sailor-ingest.sock`; chưa chạy PostgreSQL migration và bộ chấm thực tế.
+1. Bộ chấm đã qua test sandbox Docker thật, nhưng chưa kiểm tra PostgreSQL migration và luồng API→runner trong cấu hình triển khai.
 2. Không có SMTP/tên miền/TLS để kiểm thử production.
 3. Mobile là viewport giả lập Edge, chưa kiểm tra touch vật lý/screen reader thật.
 4. Chưa đo tải, nhiều replica, backup restore hoặc chống thoát sandbox. Cần engine Docker chấm code riêng và kiểm toán trước mở công khai.
-5. Video mẫu ngắn, không lời thoại; có hướng dẫn/ví dụ/ghi chú và phụ đề, có thể thay bằng video dài.
+5. Video minh họa 30 giây, không lời thoại; hiển thị mục tiêu, giải thích, ví dụ, ghi nhớ và thử thách với phụ đề tiếng Việt. Chưa có thuyết minh âm thanh.
 
 Do các mục này, chưa tuyên bố nền tảng production hoàn chỉnh theo toàn bộ master prompt.

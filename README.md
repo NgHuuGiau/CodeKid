@@ -1,33 +1,105 @@
 # CodeKid Academy
 
-Website tiếng Việt cho học sinh 9–16 tuổi: 12 bài Python, lý thuyết/video, kéo thả, tự gõ và viết code. Dự án mới tại `D:\Web giáo dục` vì thư mục ban đầu trống. Xem [kiến trúc](docs/ARCHITECTURE.md) và [đối chiếu yêu cầu](docs/REQUIREMENTS.md).
+[![React](https://img.shields.io/badge/React-19-61DAFB)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.9-3178C6)](https://www.typescriptlang.org/)
+[![.NET](https://img.shields.io/badge/.NET-10-512BD4)](https://dotnet.microsoft.com/)
+[![Python](https://img.shields.io/badge/Python-3.13-3776AB)](https://www.python.org/)
+[![Education](https://img.shields.io/badge/Đối%20tượng-9%E2%80%9316%20tuổi-FFB703)](docs/REQUIREMENTS.md)
 
-## Chạy cục bộ
+**CodeKid Academy** là website học lập trình tiếng Việt cho học sinh 9–16 tuổi. Lộ trình Python đưa người học từ xem giải thích, làm câu hỏi, kéo thả và tự gõ đến tự viết chương trình. Giao diện có mục tiêu rõ ràng, hướng dẫn theo từng bước, lưu nháp code và tiến độ để trẻ có thể học lại sau. Monaco Editor chỉ tải khi mở bước viết code; cỡ chữ mặc định là 18px.
 
-Cần Node 22.12+ (đã dùng Node 24), .NET SDK 10. Python 3.13 dùng cho kiểm thử nội dung.
+---
+
+## Trạng thái hiện tại (10/2026)
+
+| Thành phần | Trạng thái |
+|---|---|
+| **Python** | ✅ Có thể học — 12 bài, 3 cách luyện tập và thử thách viết code |
+| **Ngôn ngữ khác** | ⏳ Có trong danh mục, chưa có bài học và bộ chấm |
+| **Nội dung học** | ✅ Mục tiêu, giải thích, ví dụ, ghi nhớ, câu hỏi và video có phụ đề |
+| **Tiến độ** | ✅ Lưu phía máy chủ; code nháp lưu riêng trên trình duyệt |
+| **Trẻ em và tài khoản** | ✅ Vai trò học sinh/giáo viên/quản trị, xác minh email và đồng ý phụ huynh theo nhóm tuổi |
+| **Chạy code** | ✅ Runner Docker tách biệt; 7 kiểm thử sandbox thật đã qua. Cần khởi động runner và cấu hình secret để chấm bài trong phiên phát triển |
+| **Test suite** | ✅ API, giao diện trình duyệt, runner unit và nội dung đều có kiểm tra; xem kết quả và giới hạn bên dưới |
+
+## Tính năng chính
+
+| Nhóm | Mô tả |
+|---|---|
+| **Học theo bước** | Lý thuyết ngắn, video phụ đề, câu hỏi ôn tập, kéo thả, tự gõ và viết Python |
+| **Thân thiện với người mới** | Mục tiêu từng bước, giải thích dễ hiểu, gợi ý theo mức, phản hồi tích cực, editor chữ lớn và lưu code nháp |
+| **Tiến độ và động lực** | XP, huy hiệu, nhiệm vụ, lịch sử học, mở khóa bài và bảng xếp hạng biệt danh tự chọn |
+| **Lớp học** | Giáo viên theo dõi lớp và nội dung được giao; quản trị viên quản lý tài khoản và chương trình học |
+| **Bảo vệ trẻ học code** | Xác minh tài khoản, giới hạn dữ liệu công khai, chống giả mạo yêu cầu và runner tách khỏi API |
+
+## Bắt đầu nhanh
+
+### Yêu cầu
+
+- Windows 10/11 (các lệnh bên dưới dùng PowerShell)
+- Node.js 22.12 trở lên
+- .NET SDK 10
+- Python 3.13 để chạy kiểm tra nội dung và runner unit
+- Microsoft Edge để chạy UI test mặc định; có thể chọn Chrome bằng `BROWSER_CHANNEL=chrome`
+- Docker Desktop/Linux container chỉ cần khi muốn chấm code thật hoặc chạy test sandbox
+
+### Cài đặt và khởi chạy
 
 ```powershell
-cd 'D:\Web giáo dục'
+# Mở PowerShell tại thư mục gốc CodeKid
 npm.cmd --prefix frontend ci
 dotnet restore backend/CodeKid.Api
 npm.cmd start
 ```
 
-Mở **http://127.0.0.1:5173** sau khi hai server sẵn sàng. Ctrl+C dừng các tiến trình do script tạo. Nếu cổng bận, dừng phiên CodeKid trước đó. Có thể dùng hai terminal riêng: `npm.cmd run api` và `npm.cmd run dev`.
+Mở **http://127.0.0.1:5173**. Lệnh `npm.cmd start` khởi động frontend và API, đồng thời dừng tiến trình con khi nhấn Ctrl+C. Nếu cổng bận, dừng phiên CodeKid cũ trước. Có thể chạy riêng bằng `npm.cmd run api` và `npm.cmd run dev` trong hai terminal.
 
-API ở 127.0.0.1:5080; SQLite lưu tại `backend/CodeKid.Api/codekid.db`, giữ tiến độ sau reload/restart.
+Frontend chạy tại cổng 5173, API tại `127.0.0.1:5080`. Môi trường phát triển dùng SQLite tại `backend/CodeKid.Api/codekid.db`; tiến độ vẫn còn sau khi tải lại hoặc khởi động lại ứng dụng.
 
-| Vai trò | Email thử nghiệm | Mật khẩu |
+### Tài khoản mẫu
+
+| Vai trò | Email | Mật khẩu |
 |---|---|---|
-| Student | student@codekid.local | CodeKid2026! |
-| Teacher | teacher@codekid.local | CodeKid2026! |
-| Admin | admin@codekid.local | CodeKid2026! |
+| Học sinh | `student@codekid.local` | `CodeKid2026!` |
+| Giáo viên | `teacher@codekid.local` | `CodeKid2026!` |
+| Quản trị | `admin@codekid.local` | `CodeKid2026!` |
 
-Các tài khoản mẫu chỉ có trong Development/Testing. Production tạo admin từ biến SeedAdmin.
+Các tài khoản mẫu chỉ được tạo trong Development/Testing. Không dùng các mật khẩu này ở môi trường thật; Production tạo admin qua biến `SeedAdmin`.
 
-Tài khoản mới phải xác minh email; nhóm 9–12 dùng email phụ huynh và xác nhận đồng ý. Development chưa có SMTP lưu email vào `backend/CodeKid.Api/mailbox/<SHA256-email>.txt`: mở file lấy liên kết. Mailbox và key bị gitignore, không phục vụ qua HTTP. Production bắt buộc cấu hình SMTP thật.
+Tài khoản mới phải xác minh email. Với nhóm 9–12 tuổi, quy trình dùng email phụ huynh và yêu cầu xác nhận đồng ý. Trong Development chưa có SMTP, email được ghi vào `backend/CodeKid.Api/mailbox/<SHA256-email>.txt`; mở file để lấy liên kết. Thư mục mailbox và khóa được gitignore và không được phục vụ qua HTTP. Production cần SMTP thật.
+
+## Bản đồ entrypoint
+
+| Lệnh | Vai trò |
+|---|---|
+| `npm.cmd start` | Khởi động API và giao diện phát triển cùng lúc |
+| `npm.cmd run api` | Chạy riêng ASP.NET Core API ở chế độ Development |
+| `npm.cmd run dev` | Chạy riêng Vite frontend |
+| `dotnet build backend/CodeKid.Api` | Biên dịch API và tạo DLL mà UI test sử dụng |
+| `npm.cmd run build` | Kiểm tra TypeScript và tạo bản build frontend |
+| `npm.cmd test` | Chạy kiểm thử API bằng SQLite tạm và runner giả lập |
+| `npm.cmd run test:ui` | Chạy luồng trình duyệt Playwright |
+| `node scripts/generate-videos.mjs` | Tạo lại 12 video và phụ đề từ nội dung seed |
+| `dotnet run --project backend/CodeKid.Api -- --sync-python-seed` | Đồng bộ nội dung Python hiện có sau khi tạo SQLite backup tự động |
+
+### Luồng học và dữ liệu
+
+```text
+Frontend → API → SQLite (Development) / PostgreSQL (triển khai)
+Học:     mục tiêu/giải thích → ôn tập → kéo thả → tự gõ → viết Python
+Chấm code: API → runner riêng → container Python giới hạn tài nguyên
+Nội dung: backend/CodeKid.Api/seed/python.json → seed ban đầu → quản lý qua Admin/Teacher
+```
+
+API kiểm tra câu trả lời, mở khóa bài và cấp XP; frontend không tự cấp quyền hoặc XP. Code học sinh không chạy trong tiến trình API. Seed chỉ nạp khi cơ sở dữ liệu chưa có ngôn ngữ; nội dung đã tồn tại cần sửa qua giao diện quản trị.
+
+### Cập nhật bài học Python cho database đã có
+
+Lệnh `--sync-python-seed` đồng bộ nội dung 12 bài theo vị trí bài trong khóa, tạo backup SQLite online vào `artifacts/db-backups/` trước khi ghi và giữ nguyên tài khoản, tiến độ, XP, lịch sử làm bài cùng ID bài/test. Lệnh từ chối chạy nếu thiếu bài hoặc số test không khớp để tránh làm hỏng dữ liệu. Dừng API trước khi chạy. Nội dung Python do giáo viên/quản trị sửa sẽ được thay bằng nội dung trong seed; chỉ chạy khi muốn áp dụng lại bộ bài chuẩn. Lệnh hiện chỉ hỗ trợ SQLite. Với PostgreSQL, dùng `pg_dump` trước và cập nhật nội dung qua trang quản trị.
 
 ## Kiểm thử
+
+Chạy từ thư mục gốc trên Windows/PowerShell:
 
 ```powershell
 dotnet build backend/CodeKid.Api
@@ -38,13 +110,20 @@ python -m unittest discover -s runner -p 'test_runner.py' -v
 python -m unittest discover -s tests -p '*_test.py' -v
 ```
 
-API test dùng SQLite tạm và runner giả lập **giao thức**, không thực thi code. Browser test dùng Edge headless, server/database riêng, cổng 5088/5199. Trên Linux có Chrome, đặt `BROWSER_CHANNEL=chrome`. Ảnh QA ở `artifacts/`.
+| Bộ kiểm thử | Môi trường và phạm vi |
+|---|---|
+| API | SQLite tạm, xác thực, phân quyền, tiến độ, chấm điểm, XP và lỗi runner; runner giả lập giao thức, không thực thi code |
+| UI | Edge headless, API/DB riêng, cổng 5088/5199; kiểm tra luồng học, phím, viewport di động và quản lý |
+| Runner unit | Kiểm tra validation, so sánh kết quả và trạng thái kết nối Docker; không chứng minh cách ly Docker |
+| Nội dung | Kiểm tra dữ liệu bài học và chạy các lời giải mẫu do dự án cung cấp |
+
+Trên Linux có Chrome, đặt biến môi trường `BROWSER_CHANNEL=chrome` trước lệnh `npm run test:ui`. Ảnh QA và trace khi lỗi nằm trong `artifacts/`. Dự án chưa có .NET test project riêng; kiểm thử API được chạy bằng Node.js script.
 
 ## Sandbox Python thực tế
 
-API không thực thi Python; runner riêng tạo container cho từng test: user không root, không mạng, root filesystem chỉ đọc, 64 MB RAM, 0.5 CPU, 32 PID, CPU 2 giây, wall time 5 giây và đầu ra 8 KB. Tối đa 12.000 ký tự code, 10 test/job và 2 job đồng thời. Runner cần Linux container, không chạy server.py trực tiếp trên Windows.
+API không thực thi Python. Runner riêng tạo container cho từng test với user không root, không mạng, root filesystem chỉ đọc, 64 MB RAM, 0.5 CPU, 32 PID, giới hạn CPU 2 giây, wall time 5 giây và đầu ra 8 KB. Mỗi lần gửi tối đa 12.000 ký tự code, 10 test/job và 2 job đồng thời. Endpoint `/health` xác nhận Docker engine phản hồi; Compose dùng kết quả đó để đánh dấu runner healthy/unhealthy mà không chặn API khởi động. Runner cần Linux container; `runner/server.py` không chạy trực tiếp trên Windows.
 
-Khi Docker hoạt động, kiểm tra isolation trước:
+Khi Docker engine hoạt động, kiểm tra isolation trước khi chạy runner:
 
 ```powershell
 docker pull python:3.13-alpine
@@ -52,38 +131,59 @@ docker build -t codekid-runner runner
 docker run --rm -v /var/run/docker.sock:/var/run/docker.sock codekid-runner python -m unittest test_runner test_sandbox -v
 ```
 
-Chạy runner cục bộ với secret ngẫu nhiên ít nhất 32 ký tự:
+Chạy runner cục bộ với secret ngẫu nhiên dài ít nhất 32 ký tự:
 
 ```powershell
 $env:RUNNER_SECRET = '<secret ngẫu nhiên riêng>'
 docker run --rm --name codekid-runner-dev -p 127.0.0.1:8091:8091 -e RUNNER_SECRET -v /var/run/docker.sock:/var/run/docker.sock codekid-runner
 ```
 
-Ở terminal API, đặt `Runner__Secret` cùng giá trị và `Runner__Url=http://127.0.0.1:8091` rồi chạy API. Không expose runner Internet. Docker socket cho runner quyền quản lý engine: production cần engine/host chấm code riêng, không chứa dữ liệu/dịch vụ khác, image pin digest và kiểm toán isolation trước nhận code công khai.
+Trong terminal API, đặt `Runner__Secret` bằng cùng secret và `Runner__Url=http://127.0.0.1:8091`, sau đó khởi động API. Không đưa runner ra Internet. Docker socket cho runner quyền quản lý engine; production cần engine/host chấm code riêng, không chứa dữ liệu hoặc dịch vụ khác, image được pin bằng digest và phải kiểm toán isolation trước khi nhận code công khai.
 
-**Máy hiện tại:** Docker Desktop lỗi ở `sailor-ingest.sock`, chưa tạo được Linux engine. Vì vậy chưa kiểm chứng PostgreSQL và sandbox thật. Chế độ 3 có editor/đề bài; chạy/nộp trả 503 khi runner chưa sẵn sàng, không báo đạt giả hoặc cấp XP/mở bài tiếp theo.
+**Trạng thái kiểm tra hiện tại:** Docker Engine 29.7.2 hoạt động. Đã build runner và chạy 7 kiểm thử sandbox thật, gồm giới hạn thời gian/đầu ra, chặn mạng và filesystem ghi. PostgreSQL migration và luồng API→runner qua cấu hình triển khai chưa được kiểm tra. Khi runner chưa khởi động hoặc chưa có secret đúng, chạy/nộp trả 503, không báo đạt giả, không cấp XP và không mở bài tiếp theo.
 
 ## PostgreSQL và triển khai
 
-Migration nằm ở `backend/CodeKid.Api/Migrations`; PostgreSQL dùng Migrate, SQLite Development dùng EnsureCreated.
+Migration nằm trong `backend/CodeKid.Api/Migrations`. PostgreSQL dùng migration; SQLite Development dùng `EnsureCreated`.
 
 ```powershell
 Copy-Item .env.example .env
-# Điền mật khẩu DB/admin, runner secret, SMTP và tên miền HTTPS.
+# Điền mật khẩu DB/admin, runner secret, SMTP và tên miền HTTPS trong .env.
 docker pull python:3.13-alpine
 docker compose up --build -d
 ```
 
-Frontend/API đóng gói chung, cổng 8080 bind loopback; DB/runner không expose cổng. Cookie Production luôn Secure: **đăng nhập HTTP không hoạt động**, cần proxy HTTPS. PUBLIC_URL và ALLOWED_HOSTS phải đúng tên miền. App mặc định không tin X-Forwarded-For; cấu hình trusted proxy cụ thể trước triển khai nhiều người dùng, nếu không rate limit sẽ tính theo IP proxy.
+Frontend/API được đóng gói chung, cổng 8080 chỉ bind loopback; DB và runner không expose cổng. Cookie Production luôn `Secure`, nên đăng nhập cần reverse proxy HTTPS. Đặt `PUBLIC_URL` và `ALLOWED_HOSTS` theo tên miền thật. Ứng dụng mặc định không tin `X-Forwarded-For`; cần cấu hình trusted proxy cụ thể trước khi triển khai nhiều người dùng để rate limit nhận đúng IP.
 
-Khóa Data Protection và PostgreSQL dùng volumes riêng. Giới hạn quyền volume keys cho API; sao lưu DB/key và kiểm tra khôi phục. Bỏ ADMIN_PASSWORD khỏi cấu hình dài hạn sau bootstrap. Không reset Docker factory defaults để chạy thử vì có thể mất dữ liệu khác.
+Khóa Data Protection và PostgreSQL dùng volumes riêng. Giới hạn quyền volume khóa cho API; sao lưu DB/khóa và thử khôi phục. Bỏ `ADMIN_PASSWORD` khỏi cấu hình dài hạn sau bootstrap. Không reset Docker factory defaults để chạy thử vì có thể xóa dữ liệu khác.
 
-## Quản lý nội dung
+## Cấu trúc thư mục
 
-- Seed: `backend/CodeKid.Api/seed/python.json`, chỉ seed khi DB chưa có ngôn ngữ. Nội dung đã tồn tại sửa qua Admin/Teacher.
-- Admin: tài khoản/vai trò/lock, ngôn ngữ, khóa/chương/bài/video, câu hỏi/đáp án, thử thách/test, XP/huy hiệu, lớp và báo cáo.
-- Teacher: nội dung khóa được giao, tiến độ học sinh trong lớp; Admin xếp học sinh vào lớp.
-- Bỏ Xuất bản để ẩn nội dung; giữ bài đã có tiến độ. Thử thách đã có submissions giữ nguyên test để bảo toàn lịch sử.
-- 12 video MP4 gốc, 18 giây/video không lời thoại, kèm VTT. Tạo lại bằng `node scripts/generate-videos.mjs`; thay video dài qua quản trị.
+```text
+CodeKid/
+├── backend/CodeKid.Api/   # Identity, API, EF Core, seed và migrations
+├── frontend/              # React, TypeScript, trang học và browser tests
+│   ├── public/videos/     # 12 video MP4 và phụ đề VTT
+│   └── src/               # Trang, component, API client và styles
+├── runner/                # Dịch vụ chấm bài Docker và kiểm tra sandbox
+├── scripts/               # Khởi động phát triển, tạo video
+├── tests/                 # API và kiểm tra curriculum
+├── docs/                  # Kiến trúc, yêu cầu và schema PostgreSQL
+├── compose.yml            # PostgreSQL, API và runner
+└── README.md
+```
 
-Chưa kiểm chứng Docker/PostgreSQL, SMTP, HTTPS, tải lớn/nhiều replica, backup restore, touch thiết bị thật và pentest. Chưa công bố Internet; chưa tuyên bố production hoàn chỉnh.
+## Tài liệu
+
+| Tệp | Nội dung |
+|---|---|
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | Kiến trúc, luồng học và các giai đoạn |
+| [docs/REQUIREMENTS.md](docs/REQUIREMENTS.md) | Đối chiếu yêu cầu, kiểm tra đã chạy và giới hạn |
+| [docs/schema-postgresql.sql](docs/schema-postgresql.sql) | Schema PostgreSQL khởi tạo |
+
+## Giới hạn đã biết
+
+- Chưa kiểm chứng Docker sandbox, PostgreSQL/multi-replica, SMTP, HTTPS và khôi phục backup trên máy triển khai.
+- Chưa kiểm tra tải lớn, touch trên thiết bị thật, screen reader thực tế hoặc pentest.
+- 12 video minh họa dài 30 giây, không lời thoại; có phụ đề tiếng Việt về mục tiêu, giải thích, ví dụ, ghi nhớ và thử thách.
+- Chưa công bố Internet và chưa tuyên bố nền tảng production hoàn chỉnh.
