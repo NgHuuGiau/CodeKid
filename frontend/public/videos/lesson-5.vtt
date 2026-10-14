@@ -1,0 +1,12 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Python có +, -, *, / và % (chia lấy dư). Với số nguyên, hãy chuyển input() bằng int trước khi tính toán.
+
+00:06.000 --> 00:12.000
+a = int(input())
+b = int(input())
+print(a + b)
+
+00:12.000 --> 00:19.000
+Dấu + cộng số nhưng nối chuỗi. % giúp kiểm tra chẵn/lẻ.

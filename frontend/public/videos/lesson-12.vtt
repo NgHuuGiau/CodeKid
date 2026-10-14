@@ -1,0 +1,17 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Kết hợp nhập dữ liệu, danh sách, vòng lặp, điều kiện và hàm. Chia bài toán thành từng bước nhỏ: đọc, xử lý, hiển thị. Thử trường hợp đơn giản, số âm và danh sách rỗng.
+
+00:06.000 --> 00:12.000
+def sum_even(numbers):
+    total = 0
+    for n in numbers:
+        if n % 2 == 0:
+            total += n
+    return total
+numbers = list(map(int, input().split()))
+print(sum_even(numbers))
+
+00:12.000 --> 00:19.000
+Chấm code kiểm tra nhiều bộ dữ liệu. Không in lời nhắc hoặc nội dung thừa.

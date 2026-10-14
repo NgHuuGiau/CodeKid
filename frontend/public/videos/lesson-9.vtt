@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Danh sách lưu nhiều giá trị trong cặp ngoặc vuông. Vị trí đầu tiên có chỉ số 0. Dùng append để thêm phần tử và len để lấy độ dài.
+
+00:06.000 --> 00:12.000
+numbers = [2, 4, 6]
+numbers.append(8)
+print(numbers[0])
+print(len(numbers))
+
+00:12.000 --> 00:19.000
+Không truy cập phần tử ngoài chỉ số từ 0 đến len(list)-1.

@@ -1,0 +1,12 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Chuỗi có các phương thức strip() bỏ khoảng trắng hai đầu, upper() đổi chữ hoa, lower() đổi chữ thường. len() đếm số ký tự; có thể lặp qua chuỗi.
+
+00:06.000 --> 00:12.000
+text = input().strip()
+print(text.upper())
+print(len(text))
+
+00:12.000 --> 00:19.000
+Chuỗi không tự đổi: phương thức trả về chuỗi mới, nên dùng giá trị trả về.

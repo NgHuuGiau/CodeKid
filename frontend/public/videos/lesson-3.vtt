@@ -1,0 +1,11 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+Biến là một nhãn để giữ dữ liệu. Python có số nguyên int, số thực float, chuỗi str và giá trị đúng/sai bool. Dùng dấu = để gán.
+
+00:06.000 --> 00:12.000
+name = "CodeKid"
+print(name)
+
+00:12.000 --> 00:19.000
+Tên biến không bắt đầu bằng chữ số. Không dùng tên trùng từ khóa Python.

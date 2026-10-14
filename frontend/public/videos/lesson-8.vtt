@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+while lặp khi điều kiện còn đúng. Cập nhật biến trong vòng lặp để điều kiện có thể trở thành sai.
+
+00:06.000 --> 00:12.000
+n = int(input())
+while n > 0:
+    print(n)
+    n -= 1
+
+00:12.000 --> 00:19.000
+Vòng lặp quên cập nhật biến có thể chạy mãi; sandbox sẽ dừng chương trình quá thời gian.

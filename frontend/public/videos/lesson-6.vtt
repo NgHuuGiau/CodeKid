@@ -1,0 +1,14 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+if thực hiện một nhóm lệnh khi điều kiện đúng; else xử lý trường hợp còn lại. Sau điều kiện có dấu hai chấm, các lệnh bên trong phải thụt vào.
+
+00:06.000 --> 00:12.000
+n = int(input())
+if n % 2 == 0:
+    print("Chẵn")
+else:
+    print("Lẻ")
+
+00:12.000 --> 00:19.000
+Dùng == để so sánh, = để gán. Thụt vào nhất quán 4 dấu cách.

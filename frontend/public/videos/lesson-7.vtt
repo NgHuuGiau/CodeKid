@@ -1,0 +1,12 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+for lặp qua một dãy giá trị. range(n) tạo các số từ 0 đến n-1. range(1, n+1) tạo từ 1 đến n.
+
+00:06.000 --> 00:12.000
+n = int(input())
+for i in range(1, n + 1):
+    print(i)
+
+00:12.000 --> 00:19.000
+Giới hạn cuối của range không được đưa vào dãy.

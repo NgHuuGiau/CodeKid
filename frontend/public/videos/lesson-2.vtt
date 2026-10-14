@@ -1,0 +1,10 @@
+WEBVTT
+
+00:00.000 --> 00:06.000
+print() đưa nội dung ra màn hình. Văn bản nằm trong dấu nháy; cặp ngoặc tròn chứa nội dung cần in.
+
+00:06.000 --> 00:12.000
+print("Hello World")
+
+00:12.000 --> 00:19.000
+Dấu nháy đơn và nháy kép đều dùng được cho chuỗi.
