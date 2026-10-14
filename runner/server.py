@@ -73,17 +73,24 @@ def run_case(code, case):
             error = stderr or "Chương trình bị dừng vì lỗi hoặc vượt giới hạn tài nguyên."
         return {"passed": not error and normalize(stdout) == normalize(case["expected"]), "output": stdout, "error": error}
     finally:
-        subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=10)
         if proc:
             if proc.poll() is None:
                 proc.kill()
             proc.wait(timeout=2)
             for stream in (proc.stdin, proc.stdout, proc.stderr):
                 stream.close()
+        subprocess.run(["docker", "rm", "-f", name], capture_output=True, timeout=10)
 
 
 def valid_job(job):
     return isinstance(job, dict) and isinstance(job.get("code"), str) and 0 < len(job["code"]) <= 12000 and isinstance(job.get("tests"), list) and 0 < len(job["tests"]) <= 10 and all(isinstance(t, dict) and all(isinstance(t.get(k), str) and len(t[k]) <= 4000 for k in ("input", "expected")) for t in job["tests"])
+
+
+def docker_ready():
+    try:
+        return subprocess.run(["docker", "info", "--format", "{{.ServerVersion}}"], capture_output=True, timeout=2).returncode == 0
+    except (OSError, subprocess.SubprocessError):
+        return False
 
 
 class Handler(BaseHTTPRequestHandler):
@@ -115,6 +122,12 @@ class Handler(BaseHTTPRequestHandler):
                 SLOTS.release()
         except (ValueError, OSError, subprocess.SubprocessError):
             self.reply(503, {"message": "Sandbox unavailable"})
+
+    def do_GET(self):
+        if self.path != "/health":
+            return self.reply(404, {"message": "Not found"})
+        ready = docker_ready()
+        self.reply(200 if ready else 503, {"status": "ok" if ready else "docker unavailable"})
 
     def log_message(self, *_):
         pass
