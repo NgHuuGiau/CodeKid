@@ -25,6 +25,9 @@ services:
       PublicUrl: ${PUBLIC_URL:-http://localhost:8080}
       SeedAdmin__Email: ${ADMIN_EMAIL:?Đặt ADMIN_EMAIL}
       SeedAdmin__Password: ${ADMIN_PASSWORD:?Đặt ADMIN_PASSWORD đủ mạnh}
+      SeedTeacher__Email: ${SEED_TEACHER_EMAIL:-}
+      SeedTeacher__Password: ${SEED_TEACHER_PASSWORD:-}
+      SeedTeacher__Nickname: ${SEED_TEACHER_NICKNAME:-}
       AllowedHosts: ${ALLOWED_HOSTS:-localhost;127.0.0.1;api}
       Mail__Host: ${SMTP_HOST:-}
       Mail__Port: ${SMTP_PORT:-587}

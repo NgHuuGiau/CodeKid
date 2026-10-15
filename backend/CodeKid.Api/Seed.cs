@@ -204,5 +204,15 @@ public static class Seed
             if (!result.Succeeded) throw new InvalidOperationException("Mật khẩu admin không đủ mạnh hoặc email không hợp lệ.");
             await users.AddToRoleAsync(u, "Admin");
         }
+        if (!demo && config["SeedTeacher:Email"] is { Length: > 0 } teacherEmail && await users.FindByEmailAsync(teacherEmail) is null)
+        {
+            var pass = config["SeedTeacher:Password"] ?? throw new InvalidOperationException("Cần SeedTeacher:Password để khởi tạo giáo viên.");
+            var t = new AppUser { UserName = teacherEmail, Email = teacherEmail, EmailConfirmed = true, Profile = new StudentProfile { Nickname = config["SeedTeacher:Nickname"] is { Length: > 0 } nick ? nick : "Cô Python" } };
+            var created = await users.CreateAsync(t, pass);
+            if (!created.Succeeded) throw new InvalidOperationException("Mật khẩu giáo viên không đủ mạnh hoặc email không hợp lệ.");
+            await users.AddToRoleAsync(t, "Teacher");
+            var course = await db.Courses.FirstOrDefaultAsync();
+            if (course is not null && course.TeacherId is null) { course.TeacherId = t.Id; await db.SaveChangesAsync(); }
+        }
     }
 }

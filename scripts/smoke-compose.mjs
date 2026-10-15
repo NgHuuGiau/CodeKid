@@ -14,6 +14,8 @@ const env = {
   RUNNER_SECRET: randomBytes(32).toString("hex"),
   ADMIN_EMAIL: "smoke@codekid.test",
   ADMIN_PASSWORD: "Smoke-Test-2026!",
+  SEED_TEACHER_EMAIL: "teacher@smoke.test",
+  SEED_TEACHER_PASSWORD: "Smoke-Teacher-2026!",
   ALLOWED_HOSTS: "localhost;127.0.0.1"
 };
 
@@ -78,6 +80,10 @@ try {
   const python = languages.find(l => l.slug === "python");
   await expect(python, "Không tìm thấy ngôn ngữ python trong catalog.");
   await expect(python.available && python.lessons >= 1, "Seed PostgreSQL thiếu bài học Python.");
+
+  step("Seed tạo sẵn giáo viên khi cấu hình");
+  const teacherCount = await shOut("docker", ["exec", `${project}-db-1`, "psql", "-U", "codekid", "-d", "codekid", "-tAc", "SELECT count(*) FROM \"AspNetUserRoles\" ur JOIN \"AspNetUsers\" u ON u.\"Id\"=ur.\"UserId\" JOIN \"AspNetRoles\" r ON r.\"Id\"=ur.\"RoleId\" WHERE u.\"Email\"='teacher@smoke.test' AND r.\"Name\"='Teacher'"]);
+  await expect(teacherCount.trim() === "1", `SeedTeacher không tạo giáo viên: ${teacherCount.trim()}`);
 
   step("Phụ đề .vtt phải được phục vụ đúng MIME");
   const vtt = await fetch(`${apiUrl}/videos/lesson-1.vtt`, { signal: AbortSignal.timeout(5000) });

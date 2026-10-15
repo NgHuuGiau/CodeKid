@@ -64,7 +64,7 @@ Frontend chạy tại cổng 5173, API tại `127.0.0.1:5080`. Môi trường ph
 | Giáo viên | `teacher@codekid.local` | `CodeKid2026!` |
 | Quản trị | `admin@codekid.local` | `CodeKid2026!` |
 
-Các tài khoản mẫu chỉ được tạo trong Development/Testing. Không dùng các mật khẩu này ở môi trường thật; Production tạo admin qua biến `SeedAdmin`.
+Các tài khoản mẫu chỉ được tạo trong Development/Testing. Không dùng các mật khẩu này ở môi trường thật; Production tạo admin qua biến `SeedAdmin`, và có thể tạo sẵn một giáo viên (được gán làm chủ khóa học) qua biến `SeedTeacher` để trình diễn luồng lớp học.
 
 Tài khoản mới phải xác minh email. Với nhóm 9–12 tuổi, quy trình dùng email phụ huynh và yêu cầu xác nhận đồng ý. Trong Development chưa có SMTP, email được ghi vào `backend/CodeKid.Api/mailbox/<SHA256-email>.txt`; mở file để lấy liên kết. Thư mục mailbox và khóa được gitignore và không được phục vụ qua HTTP. Production cần SMTP thật.
 
