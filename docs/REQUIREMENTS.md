@@ -33,7 +33,7 @@ Ngày: 15/10/2026, Asia/Saigon. “Đã triển khai” và “đã kiểm thử
 - Runner unit: 3 test qua cho validation, so sánh output và trạng thái kết nối Docker (được giả lập; không thay thế sandbox integration test).
 - Curriculum: tất cả test case của 12 lời giải mẫu qua, chỉ chạy code fixture do dự án viết.
 - .NET unit: 33 test xUnit trong `backend/CodeKid.Tests` qua cho `Rules` (điểm, ô trống, đáp án, nickname/email), mở chế độ và giao thức `RunnerClient` với runner giả.
-- CI: `.github/workflows/ci.yml` hợp lệ, hai job `test` (13 bước) và `compose-smoke` (3 bước) chạy đủ bộ kiểm thử khi push/PR.
+- CI: `.github/workflows/ci.yml` đã chạy xanh lần đầu trên GitHub Actions (run #1, Ubuntu): job `test` đủ 13 bước, job `compose-smoke` chạy 61 giây, tổng 2 phút 16 giây.
 - Compose smoke (`scripts/smoke-compose.mjs`): PASS — migration và seed PostgreSQL trong `docker compose` thật, `/api/health`, runner production tự chấm một test thật, và mạng API→runner; container/volume được dọn sau mỗi lần chạy.
 - Seed sync: chạy trên SQLite thử và DB phát triển; backup online được tạo, tiến độ/lịch sử/XP giữ nguyên, integrity và foreign keys sạch.
 - Audit dependency trực tuyến: chưa xác minh được trạng thái advisory .NET vì nguồn NuGet không truy cập được; chưa có kết quả sandbox Docker thực.
