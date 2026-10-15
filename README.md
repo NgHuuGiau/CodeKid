@@ -163,6 +163,40 @@ Frontend/API được đóng gói chung, cổng 8080 chỉ bind loopback; DB và
 
 Khóa Data Protection và PostgreSQL dùng volumes riêng. Giới hạn quyền volume khóa cho API; sao lưu DB/khóa và thử khôi phục. Bỏ `ADMIN_PASSWORD` khỏi cấu hình dài hạn sau bootstrap. Không reset Docker factory defaults để chạy thử vì có thể xóa dữ liệu khác.
 
+### Sao lưu và phục hồi PostgreSQL
+
+Sao lưu tự động bằng `pg_dump` trong container `db` (giữ 7 bản gần nhất, xoá dần bản cũ):
+
+```powershell
+node scripts/backup-postgres.mjs   # -> artifacts/db-backups/codekid-<thời-điểm>.dump
+# Tuỳ chỉnh: $env:KEEP=30; $env:COMPOSE_PROJECT_NAME='codekid'; node scripts/backup-postgres.mjs
+```
+
+Chạy định kỳ bằng Task Scheduler/cron, ví dụ cron mỗi ngày 2 giờ sáng:
+
+```cron
+0 2 * * * cd /srv/codekid && /usr/bin/node scripts/backup-postgres.mjs >> /var/log/codekid-backup.log 2>&1
+```
+
+Phục hồi (dừng API trước để không có ghi trong lúc khôi phục):
+
+```powershell
+docker compose stop api
+docker compose exec -T db pg_restore -U codekid -d codekid --clean --if-exists - < artifacts/db-backups/codekid-<thời-điểm>.dump
+docker compose start api
+```
+
+Nên sao lưu kèm volume `keys` (khóa Data Protection) để phiên đăng nhập và dữ liệu mã hoá khôi phục đúng. Luôn thử khôi phục ra môi trường tạm trước khi tin vào bản sao lưu.
+
+### SMTP, SPF/DKIM và email giao dịch
+
+Production cần SMTP thật (`Mail__Host/Port/User/Password/From`, `Mail__Ssl`); thiếu cấu hình, API ghi cảnh báo lúc khởi động và đăng ký/xác minh/đặt lại mật khẩu trả 503. Dùng nhà cung cấp SMTP có xác thực và **không** chạy cổng 25 trực tiếp. Cấu hình DNS để email không bị đánh dấu spam:
+
+- **SPF**: bản ghi TXT ở tên miền, ví dụ `v=spf1 include:_spf.nha-cung-cap.example -all`.
+- **DKIM**: bật ký trong bảng điều khiển nhà cung cấp rồi thêm bản ghi `CNAME`/`TXT` khoá công khai mà họ cấp.
+- **DMARC**: TXT ở `_dmarc`, ví dụ `v=DMARC1; p=quarantine; rua=mailto:dmarc@tên-miền`.
+- Gửi `Mail__From` cùng tên miền với bản ghi SPF/DKIM; kiểm tra bằng cách gửi thử tới Gmail và xem "Show original".
+
 ## Cấu trúc thư mục
 
 ```text
