@@ -79,6 +79,11 @@ try {
   await expect(python, "Không tìm thấy ngôn ngữ python trong catalog.");
   await expect(python.available && python.lessons >= 1, "Seed PostgreSQL thiếu bài học Python.");
 
+  step("Phụ đề .vtt phải được phục vụ đúng MIME");
+  const vtt = await fetch(`${apiUrl}/videos/lesson-1.vtt`, { signal: AbortSignal.timeout(5000) });
+  await expect(vtt.ok, `Phụ đề /videos/lesson-1.vtt trả ${vtt.status}; UseStaticFiles chưa map .vtt sang text/vtt.`);
+  await expect((vtt.headers.get("content-type") ?? "").includes("text/vtt"), `MIME phụ đề sai: ${vtt.headers.get("content-type")}`);
+
   step("Runner production tự chấm một test thật");
   await new Promise((resolve, reject) => {
     const child = spawn("docker", ["exec", "-i", `${project}-runner-1`, "python", "-"], { env, stdio: ["pipe", "inherit", "inherit"] });

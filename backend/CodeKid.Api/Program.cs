@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.StaticFiles;
 using System.Threading.RateLimiting;
 
 var syncPythonSeed = args.Contains("--sync-python-seed", StringComparer.Ordinal);
@@ -75,7 +76,9 @@ app.Use(async (context, next) =>
 app.MapGet("/api/csrf", (HttpContext c, IAntiforgery antiforgery) => Results.Ok(new { token = antiforgery.GetAndStoreTokens(c).RequestToken }));
 app.MapGet("/api/health", () => Results.Ok(new { status = "ok" }));
 app.MapAuth(); app.MapLearning(); app.MapManage();
-app.UseDefaultFiles(); app.UseStaticFiles();
+var staticContentTypes = new FileExtensionContentTypeProvider();
+staticContentTypes.Mappings[".vtt"] = "text/vtt";
+app.UseDefaultFiles(); app.UseStaticFiles(new StaticFileOptions { ContentTypeProvider = staticContentTypes });
 app.MapFallbackToFile("index.html");
 await using (var scope = app.Services.CreateAsyncScope())
 {
