@@ -78,7 +78,7 @@ Tài khoản mới phải xác minh email. Với nhóm 9–12 tuổi, quy trình
 | `dotnet build backend/CodeKid.Api` | Biên dịch API và tạo DLL mà UI test sử dụng |
 | `npm.cmd run build` | Kiểm tra TypeScript và tạo bản build frontend |
 | `npm.cmd test` | Chạy kiểm thử API bằng SQLite tạm và runner giả lập |
-| `npm.cmd run test:dotnet` | Chạy 33 test xUnit cho quy tắc chấm điểm và giao thức runner |
+| `npm.cmd run test:dotnet` | Chạy 34 test xUnit cho quy tắc chấm điểm và giao thức runner |
 | `npm.cmd run test:ui` | Chạy luồng trình duyệt Playwright |
 | `npm.cmd run test:compose` | Smoke test PostgreSQL + runner production bằng docker compose |
 | `node scripts/generate-videos.mjs` | Tạo lại 12 video và phụ đề từ nội dung seed |

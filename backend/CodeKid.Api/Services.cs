@@ -88,7 +88,10 @@ public class RunnerClient(HttpClient client, IConfiguration config)
         if (string.IsNullOrWhiteSpace(config["Runner:Secret"])) return null;
         using var request = new HttpRequestMessage(HttpMethod.Post, config["Runner:Url"]!.TrimEnd('/') + "/run");
         request.Headers.Add("X-Runner-Secret", config["Runner:Secret"]);
-        request.Content = JsonContent.Create(new RunnerRequest(code, cases.Select(x => new RunnerCase(x.Input, x.Expected)).ToList()));
+        // StringContent để runner nhận Content-Length; JsonContent gửi chunked và bị runner từ chối.
+        request.Content = new StringContent(
+            System.Text.Json.JsonSerializer.Serialize(new RunnerRequest(code, cases.Select(x => new RunnerCase(x.Input, x.Expected)).ToList()), new System.Text.Json.JsonSerializerOptions(System.Text.Json.JsonSerializerDefaults.Web)),
+            System.Text.Encoding.UTF8, "application/json");
         try
         {
             using var response = await client.SendAsync(request, ct);

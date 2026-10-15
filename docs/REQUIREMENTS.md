@@ -32,7 +32,7 @@ Ngày: 15/10/2026, Asia/Saigon. “Đã triển khai” và “đã kiểm thử
 - Browser: 8 luồng qua sau khi sửa tràn mobile, stale unlock và Enter; chuột, keyboard, touch giả lập, video, profile, staff, lỗi API.
 - Runner unit: 3 test qua cho validation, so sánh output và trạng thái kết nối Docker (được giả lập; không thay thế sandbox integration test).
 - Curriculum: tất cả test case của 12 lời giải mẫu qua, chỉ chạy code fixture do dự án viết.
-- .NET unit: 33 test xUnit trong `backend/CodeKid.Tests` qua cho `Rules` (điểm, ô trống, đáp án, nickname/email), mở chế độ và giao thức `RunnerClient` với runner giả.
+- .NET unit: 34 test xUnit trong `backend/CodeKid.Tests` qua cho `Rules` (điểm, ô trống, đáp án, nickname/email), mở chế độ và giao thức `RunnerClient` với runner giả (gồm test chặn body chunked thiếu `Content-Length`).
 - CI: `.github/workflows/ci.yml` đã chạy xanh lần đầu trên GitHub Actions (run #1, Ubuntu): job `test` đủ 13 bước, job `compose-smoke` chạy 61 giây, tổng 2 phút 16 giây.
 - Compose smoke (`scripts/smoke-compose.mjs`): PASS — migration và seed PostgreSQL trong `docker compose` thật, `/api/health`, runner production tự chấm một test thật, và mạng API→runner; container/volume được dọn sau mỗi lần chạy.
 - Seed sync: chạy trên SQLite thử và DB phát triển; backup online được tạo, tiến độ/lịch sử/XP giữ nguyên, integrity và foreign keys sạch.

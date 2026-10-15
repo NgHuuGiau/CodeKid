@@ -9,14 +9,18 @@ public class RunnerClientTests
         : HttpMessageHandler
     {
         public int Calls { get; private set; }
+        public HttpRequestMessage? LastRequest { get; private set; }
+        public string? LastBody { get; private set; }
 
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
+        protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken ct)
         {
             Calls++;
-            return Task.FromResult(new HttpResponseMessage(status)
+            LastRequest = request;
+            LastBody = request.Content is null ? null : await request.Content.ReadAsStringAsync(ct);
+            return new HttpResponseMessage(status)
             {
                 Content = new StringContent(body, System.Text.Encoding.UTF8, "application/json")
-            });
+            };
         }
     }
 
@@ -50,6 +54,19 @@ public class RunnerClientTests
         Assert.NotNull(result);
         Assert.True(result!.Results[0].Passed);
         Assert.Equal("hello\n", result.Results[0].Output);
+    }
+
+    [Fact]
+    public async Task Request_body_has_content_length_and_tests_payload()
+    {
+        var handler = new StubHandler(HttpStatusCode.OK, OkBody());
+        var client = Build(handler, Settings("s".PadRight(40, 's')));
+        await client.Run("print(1)", [new TestCase { Input = "", Expected = "hello" }], CancellationToken.None);
+        Assert.NotNull(handler.LastRequest?.Content);
+        Assert.NotNull(handler.LastRequest!.Content!.Headers.ContentLength);
+        Assert.Equal(handler.LastBody!.Length, handler.LastRequest.Content.Headers.ContentLength);
+        Assert.Contains("\"code\":\"print(1)\"", handler.LastBody);
+        Assert.Contains("\"tests\":[{\"input\":\"\",\"expected\":\"hello\"}]", handler.LastBody);
     }
 
     [Fact]

@@ -31,6 +31,7 @@ services:
       Mail__User: ${SMTP_USER:-}
       Mail__Password: ${SMTP_PASSWORD:-}
       Mail__From: ${SMTP_FROM:-}
+      Mail__Ssl: ${SMTP_SSL:-true}
     volumes: ["keys:/app/keys"]
     depends_on:
       db: {condition: service_healthy}
