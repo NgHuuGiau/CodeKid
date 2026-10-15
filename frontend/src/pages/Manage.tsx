@@ -10,6 +10,7 @@ import {
   Save,
   ShieldCheck,
   Star,
+  Trash2,
   Users,
   X,
 } from "lucide-react";
@@ -822,6 +823,31 @@ export default function Manage() {
                                 >
                                   <Pencil size={14} />
                                   Chỉnh sửa
+                                </Button>{" "}
+                                <Button
+                                  variant="ghost"
+                                  size="sm"
+                                  disabled={busy}
+                                  onClick={() => {
+                                    const label = String(
+                                      row.title ??
+                                        row.name ??
+                                        `${modeNames[String(row.mode)]} · Bài ${row.lessonId}`,
+                                    );
+                                    if (
+                                      window.confirm(
+                                        `Xóa "${label}"? Hành động này không thể hoàn tác.`,
+                                      )
+                                    )
+                                      void action(
+                                        `/manage/${tab}/${row.id}`,
+                                        "DELETE",
+                                        undefined,
+                                      );
+                                  }}
+                                >
+                                  <Trash2 size={14} />
+                                  Xóa
                                 </Button>
                               </td>
                             </tr>

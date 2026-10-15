@@ -98,5 +98,61 @@ public static class ManageContentEndpoints
             x.Title = r.Title; x.Description = r.Description; x.Icon = r.Icon; x.RequiredXp = r.RequiredXp;
             if (id == 0) db.Add(x); await db.SaveChangesAsync(); return Results.Ok(new { x.Id });
         }).RequireAuthorization(p => p.RequireRole("Admin"));
+        staff.MapDelete("/languages/{id:int}", async (int id, AppDb db) =>
+        {
+            if (await db.Courses.AnyAsync(x => x.LanguageId == id)) return ManageRules.Invalid("Còn khóa học dùng ngôn ngữ này; xóa khóa học trước.");
+            var x = await db.ProgrammingLanguages.FindAsync(id); if (x is null) return Results.NotFound();
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        }).RequireAuthorization(p => p.RequireRole("Admin"));
+        staff.MapDelete("/courses/{id:int}", async (int id, ClaimsPrincipal user, AppDb db) =>
+        {
+            if (!await ManageRules.OwnCourse(db, user, id)) return Results.Forbid();
+            var x = await db.Courses.FindAsync(id); if (x is null) return Results.NotFound();
+            var lessons = db.Lessons.Where(l => l.Chapter.CourseId == id).Select(l => l.Id);
+            var challenges = db.CodingChallenges.Where(c => lessons.Contains(c.LessonId)).Select(c => c.Id);
+            if (await db.StudentProgress.AnyAsync(p => lessons.Contains(p.LessonId)) || await db.StudentAttempts.AnyAsync(a => lessons.Contains(a.LessonId)) || await db.Submissions.AnyAsync(s => challenges.Contains(s.ChallengeId)))
+                return ManageRules.Invalid("Khóa học đã có tiến độ học sinh; hãy ẩn (bỏ xuất bản) thay vì xóa.");
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        });
+        staff.MapDelete("/chapters/{id:int}", async (int id, ClaimsPrincipal user, AppDb db) =>
+        {
+            var x = await db.Chapters.FindAsync(id); if (x is null) return Results.NotFound();
+            if (!await ManageRules.OwnCourse(db, user, x.CourseId)) return Results.Forbid();
+            var lessons = db.Lessons.Where(l => l.ChapterId == id).Select(l => l.Id);
+            var challenges = db.CodingChallenges.Where(c => lessons.Contains(c.LessonId)).Select(c => c.Id);
+            if (await db.StudentProgress.AnyAsync(p => lessons.Contains(p.LessonId)) || await db.StudentAttempts.AnyAsync(a => lessons.Contains(a.LessonId)) || await db.Submissions.AnyAsync(s => challenges.Contains(s.ChallengeId)))
+                return ManageRules.Invalid("Chương đã có tiến độ học sinh; không thể xóa.");
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        });
+        staff.MapDelete("/lessons/{id:int}", async (int id, ClaimsPrincipal user, AppDb db) =>
+        {
+            if (!await ManageRules.OwnLesson(db, user, id)) return Results.Forbid();
+            var challenges = db.CodingChallenges.Where(c => c.LessonId == id).Select(c => c.Id);
+            if (await db.StudentProgress.AnyAsync(p => p.LessonId == id) || await db.StudentAttempts.AnyAsync(a => a.LessonId == id) || await db.Submissions.AnyAsync(s => challenges.Contains(s.ChallengeId)))
+                return ManageRules.Invalid("Bài học đã có tiến độ học sinh; không thể xóa.");
+            var x = await db.Lessons.FindAsync(id); if (x is null) return Results.NotFound();
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        });
+        staff.MapDelete("/exercises/{id:int}", async (int id, ClaimsPrincipal user, AppDb db) =>
+        {
+            var x = await db.Exercises.Include(e => e.Blanks).ThenInclude(b => b.Answers).Include(e => e.Options).FirstOrDefaultAsync(e => e.Id == id);
+            if (x is null) return Results.NotFound();
+            if (!await ManageRules.OwnLesson(db, user, x.LessonId)) return Results.Forbid();
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        });
+        staff.MapDelete("/challenges/{id:int}", async (int id, ClaimsPrincipal user, AppDb db) =>
+        {
+            var x = await db.CodingChallenges.Include(c => c.TestCases).FirstOrDefaultAsync(c => c.Id == id);
+            if (x is null) return Results.NotFound();
+            if (!await ManageRules.OwnLesson(db, user, x.LessonId)) return Results.Forbid();
+            if (await db.Submissions.AnyAsync(s => s.ChallengeId == id)) return ManageRules.Invalid("Thử thách đã có bài nộp; không thể xóa để bảo toàn lịch sử.");
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        });
+        staff.MapDelete("/achievements/{id:int}", async (int id, AppDb db) =>
+        {
+            var x = await db.Achievements.FindAsync(id); if (x is null) return Results.NotFound();
+            if (await db.StudentAchievements.AnyAsync(s => s.AchievementId == id)) return ManageRules.Invalid("Đã có học sinh nhận huy hiệu này; không thể xóa.");
+            db.Remove(x); await db.SaveChangesAsync(); return Results.NoContent();
+        }).RequireAuthorization(p => p.RequireRole("Admin"));
     }
 }

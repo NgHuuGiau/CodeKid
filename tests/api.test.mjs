@@ -78,5 +78,25 @@ test('CodeKid API: real Identity + SQLite; grading protocol uses a test double, 
     });
     await t.test('nulls, missing fields, malformed answers and profile tampering are rejected',async()=>{assert.equal((await client.call('/profile','PUT',{nickname:null,avatar:'robot',leaderboardOptIn:false})).status,400);assert.equal((await client.call('/profile','PUT',{nickname:'A',avatar:'nope',leaderboardOptIn:false})).status,400);assert.equal((await client.call(`/exercises/${drag}/check`,'POST',{})).status,400);assert.equal((await client.call('/auth/register','POST',{})).status,400);assert.equal((await client.call('/profile','PUT',{})).status,400);assert.equal((await client.call(`/exercises/${drag}/check`,'POST',{values:{99:'print'}})).status,400);assert.equal((await client.call(`/challenges/${challenge}/submit`,'POST',{code:'x'.repeat(12001)})).status,400);});
     await t.test('logout revokes browser access; rate limit returns 429 and Retry-After',async()=>{await client.call('/auth/logout','POST',{});assert.equal((await client.call('/dashboard')).status,401);let limited;for(let i=0;i<40;i++){const r=await client.call('/auth/login','POST',{email:'nobody@example.com',password:'NotFound2026!'});if(r.status===429){limited=r;break;}}assert.ok(limited);assert.equal(limited.headers.get('retry-after'),'60');});
+    await t.test('admin can change roles but never the last admin or their own role',async()=>{const users=(await admin.call('/manage/users')).body;const student=users.find(u=>u.email==='student@codekid.local');assert.ok(student);assert.equal((await admin.call(`/manage/users/${student.id}/role`,'PUT',{role:'Teacher'})).status,200);assert.equal((await admin.call(`/manage/users/${student.id}/role`,'PUT',{role:'Student'})).status,200);const self=users.find(u=>u.email==='admin@codekid.local');assert.notEqual((await admin.call(`/manage/users/${self.id}/role`,'PUT',{role:'Student'})).status,200);});
+    await t.test('content deletion guards student history and enforces ownership',async()=>{
+      assert.equal((await teacher.call('/manage/languages/1','DELETE')).status,403);
+      assert.equal((await admin.call('/manage/languages/1','DELETE')).status,400);
+      assert.equal((await admin.call('/manage/courses/1','DELETE')).status,400);
+      assert.equal((await admin.call(`/manage/lessons/${first.id}`,'DELETE')).status,400);
+      assert.equal((await admin.call(`/manage/challenges/${challenge}`,'DELETE')).status,400);
+      const achievements=(await admin.call('/manage/content')).body.achievements;
+      const earned=achievements.reduce((a,b)=>a.requiredXp<=b.requiredXp?a:b);
+      assert.equal((await admin.call(`/manage/achievements/${earned.id}`,'DELETE')).status,400);
+      const unearned=achievements.find(a=>a.requiredXp===1000);assert.ok(unearned);
+      assert.equal((await admin.call(`/manage/achievements/${unearned.id}`,'DELETE')).status,204);
+      const created=await admin.call('/manage/courses/0','PUT',{languageId:1,title:'Xóa thử',description:'temp',teacherId:null,published:false});
+      assert.equal(created.status,200);
+      assert.equal((await teacher.call(`/manage/courses/${created.body.id}`,'DELETE')).status,403);
+      assert.equal((await admin.call(`/manage/courses/${created.body.id}`,'DELETE')).status,204);
+      const ex=(await admin.call('/manage/content')).body.exercises.find(e=>e.lessonId===first.id&&e.mode==='drag');assert.ok(ex);
+      assert.equal((await admin.call(`/manage/exercises/${ex.id}`,'DELETE')).status,204);
+      assert.equal((await admin.call('/manage/content')).body.exercises.some(e=>e.id===ex.id),false);
+    });
   }finally{server.kill();await new Promise(resolve=>{if(server.exitCode!==null)return resolve();server.once('exit',resolve);});await new Promise(resolve=>runner.close(resolve));await rm(dir,{recursive:true,force:true});}
 });
