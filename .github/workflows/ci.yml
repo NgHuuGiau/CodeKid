@@ -1,0 +1,56 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 10.0.x
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Build API
+        run: dotnet build backend/CodeKid.Api --nologo
+      - name: .NET unit tests
+        run: dotnet test backend/CodeKid.Tests --nologo
+      - name: API tests
+        run: npm test
+      - name: Curriculum content tests
+        run: python -m unittest discover -s tests -p "*_test.py" -v
+      - name: Runner validation tests
+        run: python -m unittest discover -s runner -p "test_runner.py" -v
+      - name: Frontend typecheck and build
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund && npm run build
+      - name: Install Playwright browser
+        working-directory: frontend
+        run: npx playwright install --with-deps chromium
+      - name: Browser UI tests
+        working-directory: frontend
+        run: npm run test:ui
+        env:
+          BROWSER_CHANNEL: chromium
+      - name: Real sandbox tests in Docker
+        run: |
+          docker build -t codekid-runner runner
+          docker run --rm -v /var/run/docker.sock:/var/run/docker.sock codekid-runner python -m unittest test_runner test_sandbox -v
+
+  compose-smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: PostgreSQL and runner production smoke test
+        run: node scripts/smoke-compose.mjs

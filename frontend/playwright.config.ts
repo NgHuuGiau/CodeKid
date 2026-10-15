@@ -28,7 +28,9 @@ export default defineConfig({
       },
     },
     {
-      command: "npm.cmd run dev -- --port 5199 --strictPort",
+      command: process.platform === "win32"
+        ? "npm.cmd run dev -- --port 5199 --strictPort"
+        : "npm run dev -- --port 5199 --strictPort",
       url: "http://127.0.0.1:5199",
       timeout: 60000,
       env: { CODEKID_API_URL: "http://127.0.0.1:5088" },
