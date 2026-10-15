@@ -32,12 +32,15 @@ Ngày: 15/10/2026, Asia/Saigon. “Đã triển khai” và “đã kiểm thử
 - Browser: 8 luồng qua sau khi sửa tràn mobile, stale unlock và Enter; chuột, keyboard, touch giả lập, video, profile, staff, lỗi API.
 - Runner unit: 3 test qua cho validation, so sánh output và trạng thái kết nối Docker (được giả lập; không thay thế sandbox integration test).
 - Curriculum: tất cả test case của 12 lời giải mẫu qua, chỉ chạy code fixture do dự án viết.
+- .NET unit: 33 test xUnit trong `backend/CodeKid.Tests` qua cho `Rules` (điểm, ô trống, đáp án, nickname/email), mở chế độ và giao thức `RunnerClient` với runner giả.
+- CI: `.github/workflows/ci.yml` hợp lệ, hai job `test` (13 bước) và `compose-smoke` (3 bước) chạy đủ bộ kiểm thử khi push/PR.
+- Compose smoke (`scripts/smoke-compose.mjs`): PASS — migration và seed PostgreSQL trong `docker compose` thật, `/api/health`, runner production tự chấm một test thật, và mạng API→runner; container/volume được dọn sau mỗi lần chạy.
 - Seed sync: chạy trên SQLite thử và DB phát triển; backup online được tạo, tiến độ/lịch sử/XP giữ nguyên, integrity và foreign keys sạch.
 - Audit dependency trực tuyến: chưa xác minh được trạng thái advisory .NET vì nguồn NuGet không truy cập được; chưa có kết quả sandbox Docker thực.
 
 ## Chưa thể đánh dấu hoàn tất
 
-1. Bộ chấm đã qua test sandbox Docker thật, nhưng chưa kiểm tra PostgreSQL migration và luồng API→runner trong cấu hình triển khai.
+1. Bộ chấm đã qua test sandbox Docker thật; PostgreSQL migration, seed và mạng API→runner đã qua smoke test compose. Còn thiếu: luồng nộp bài đầy đủ qua API với cấu hình triển khai thật (cần tài khoản và SMTP) và PostgreSQL lock khi cấp XP chạy thật.
 2. Không có SMTP/tên miền/TLS để kiểm thử production.
 3. Mobile là viewport giả lập Edge, chưa kiểm tra touch vật lý/screen reader thật.
 4. Chưa đo tải, nhiều replica, backup restore hoặc chống thoát sandbox. Cần engine Docker chấm code riêng và kiểm toán trước mở công khai.

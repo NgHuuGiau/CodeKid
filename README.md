@@ -78,7 +78,9 @@ Tài khoản mới phải xác minh email. Với nhóm 9–12 tuổi, quy trình
 | `dotnet build backend/CodeKid.Api` | Biên dịch API và tạo DLL mà UI test sử dụng |
 | `npm.cmd run build` | Kiểm tra TypeScript và tạo bản build frontend |
 | `npm.cmd test` | Chạy kiểm thử API bằng SQLite tạm và runner giả lập |
+| `npm.cmd run test:dotnet` | Chạy 33 test xUnit cho quy tắc chấm điểm và giao thức runner |
 | `npm.cmd run test:ui` | Chạy luồng trình duyệt Playwright |
+| `npm.cmd run test:compose` | Smoke test PostgreSQL + runner production bằng docker compose |
 | `node scripts/generate-videos.mjs` | Tạo lại 12 video và phụ đề từ nội dung seed |
 | `dotnet run --project backend/CodeKid.Api -- --sync-python-seed` | Đồng bộ nội dung Python hiện có sau khi tạo SQLite backup tự động |
 
@@ -103,21 +105,25 @@ Chạy từ thư mục gốc trên Windows/PowerShell:
 
 ```powershell
 dotnet build backend/CodeKid.Api
+dotnet test backend/CodeKid.Tests
 npm.cmd run build
 npm.cmd test
 npm.cmd run test:ui
 python -m unittest discover -s runner -p 'test_runner.py' -v
 python -m unittest discover -s tests -p '*_test.py' -v
+node scripts/smoke-compose.mjs
 ```
 
 | Bộ kiểm thử | Môi trường và phạm vi |
 |---|---|
+| .NET unit | xUnit: `Rules` (điểm, ô trống, đáp án), mở chế độ và kiểm tra phản hồi của `RunnerClient` với runner giả |
 | API | SQLite tạm, xác thực, phân quyền, tiến độ, chấm điểm, XP và lỗi runner; runner giả lập giao thức, không thực thi code |
 | UI | Edge headless, API/DB riêng, cổng 5088/5199; kiểm tra luồng học, phím, viewport di động và quản lý |
 | Runner unit | Kiểm tra validation, so sánh kết quả và trạng thái kết nối Docker; không chứng minh cách ly Docker |
 | Nội dung | Kiểm tra dữ liệu bài học và chạy các lời giải mẫu do dự án cung cấp |
+| Compose smoke | `docker compose` thật: migration + seed PostgreSQL, `/api/health`, runner tự chấm một test và mạng API→runner; tự dọn container/volume của project `codekid-smoke` |
 
-Trên Linux có Chrome, đặt biến môi trường `BROWSER_CHANNEL=chrome` trước lệnh `npm run test:ui`. Ảnh QA và trace khi lỗi nằm trong `artifacts/`. Dự án chưa có .NET test project riêng; kiểm thử API được chạy bằng Node.js script.
+CI `.github/workflows/ci.yml` chạy đủ các lệnh trên khi push/PR: job `test` cho sáu bộ đầu, job `compose-smoke` cho smoke test triển khai. Trên Linux đặt `BROWSER_CHANNEL=chromium` khi chạy `npm run test:ui`. Ảnh QA và trace khi lỗi nằm trong `artifacts/`.
 
 ## Sandbox Python thực tế
 
@@ -140,7 +146,7 @@ docker run --rm --name codekid-runner-dev -p 127.0.0.1:8091:8091 -e RUNNER_SECRE
 
 Trong terminal API, đặt `Runner__Secret` bằng cùng secret và `Runner__Url=http://127.0.0.1:8091`, sau đó khởi động API. Không đưa runner ra Internet. Docker socket cho runner quyền quản lý engine; production cần engine/host chấm code riêng, không chứa dữ liệu hoặc dịch vụ khác, image được pin bằng digest và phải kiểm toán isolation trước khi nhận code công khai.
 
-**Trạng thái kiểm tra hiện tại:** Docker Engine 29.7.2 hoạt động. Đã build runner và chạy 7 kiểm thử sandbox thật, gồm giới hạn thời gian/đầu ra, chặn mạng và filesystem ghi. PostgreSQL migration và luồng API→runner qua cấu hình triển khai chưa được kiểm tra. Khi runner chưa khởi động hoặc chưa có secret đúng, chạy/nộp trả 503, không báo đạt giả, không cấp XP và không mở bài tiếp theo.
+**Trạng thái kiểm tra hiện tại:** Docker Engine 29.7.2 hoạt động. Đã build runner và chạy 7 kiểm thử sandbox thật, gồm giới hạn thời gian/đầu ra, chặn mạng và filesystem ghi. Smoke test `node scripts/smoke-compose.mjs` đã kiểm tra PostgreSQL migration/seed, runner production chấm một test thật và mạng API→runner trong `docker compose` thật; luồng nộp bài đầy đủ qua API với cấu hình triển khai (tài khoản/SMTP) chưa chạy. Khi runner chưa khởi động hoặc chưa có secret đúng, chạy/nộp trả 503, không báo đạt giả, không cấp XP và không mở bài tiếp theo.
 
 ## PostgreSQL và triển khai
 
@@ -162,12 +168,14 @@ Khóa Data Protection và PostgreSQL dùng volumes riêng. Giới hạn quyền 
 ```text
 CodeKid/
 ├── backend/CodeKid.Api/   # Identity, API, EF Core, seed và migrations
+├── backend/CodeKid.Tests/ # Test xUnit cho Rules, mở chế độ và RunnerClient
 ├── frontend/              # React, TypeScript, trang học và browser tests
 │   ├── public/videos/     # 12 video MP4 và phụ đề VTT
 │   └── src/               # Trang, component, API client và styles
 ├── runner/                # Dịch vụ chấm bài Docker và kiểm tra sandbox
-├── scripts/               # Khởi động phát triển, tạo video
+├── scripts/               # Khởi động phát triển, tạo video, smoke compose
 ├── tests/                 # API và kiểm tra curriculum
+├── .github/workflows/     # CI chạy đủ bộ kiểm thử
 ├── docs/                  # Kiến trúc, yêu cầu và schema PostgreSQL
 ├── compose.yml            # PostgreSQL, API và runner
 └── README.md
@@ -183,7 +191,7 @@ CodeKid/
 
 ## Giới hạn đã biết
 
-- Chưa kiểm chứng Docker sandbox, PostgreSQL/multi-replica, SMTP, HTTPS và khôi phục backup trên máy triển khai.
+- Chưa kiểm chứng multi-replica, SMTP, HTTPS, khôi phục backup và luồng nộp bài đầy đủ với cấu hình triển khai; PostgreSQL migration/seed và mạng API→runner đã có smoke test compose.
 - Chưa kiểm tra tải lớn, touch trên thiết bị thật, screen reader thực tế hoặc pentest.
 - 12 video minh họa dài 30 giây, không lời thoại; có phụ đề tiếng Việt về mục tiêu, giải thích, ví dụ, ghi nhớ và thử thách.
 - Chưa công bố Internet và chưa tuyên bố nền tảng production hoàn chỉnh.
