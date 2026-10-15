@@ -52,7 +52,9 @@ export async function api<T>(
             ? "Hãy đăng nhập để tiếp tục."
             : response.status === 403
               ? "Bạn chưa có quyền mở nội dung này."
-              : "Không thể tải dữ liệu. Hãy thử lại."),
+              : response.status === 429
+                ? "Bạn thao tác quá nhanh. Vui lòng chờ khoảng một phút rồi thử lại."
+                : "Không thể tải dữ liệu. Hãy thử lại."),
         response.status,
       );
     }
