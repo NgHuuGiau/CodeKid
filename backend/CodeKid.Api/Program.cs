@@ -41,6 +41,8 @@ builder.Services.AddRateLimiter(o =>
 });
 builder.WebHost.ConfigureKestrel(o => o.Limits.MaxRequestBodySize = 100_000);
 var app = builder.Build();
+if (!app.Environment.IsDevelopment() && !app.Environment.IsEnvironment("Testing") && string.IsNullOrWhiteSpace(builder.Configuration["Mail:Host"]))
+    app.Logger.LogWarning("Chưa cấu hình SMTP (Mail:Host): đăng ký, xác minh email và đặt lại mật khẩu sẽ trả 503. Đặt Mail__Host/Mail__Port/Mail__User/Mail__Password/Mail__From trước khi mở cho người dùng thật.");
 app.Use(async (context, next) =>
 {
     context.Response.Headers["X-Content-Type-Options"] = "nosniff";
