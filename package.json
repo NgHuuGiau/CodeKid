@@ -9,6 +9,7 @@
     "test:dotnet": "dotnet test backend/CodeKid.Tests",
     "test:ui": "npm --prefix frontend run test:ui",
     "test:compose": "node scripts/smoke-compose.mjs",
+    "test:e2e": "node scripts/e2e-production.mjs",
     "api": "dotnet run --project backend/CodeKid.Api --no-launch-profile -- --environment Development"
   }
 }

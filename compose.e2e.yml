@@ -1,0 +1,15 @@
+services:
+  api:
+    environment:
+      Mail__Host: mailpit
+      Mail__Port: "1025"
+      Mail__Ssl: "false"
+      Mail__From: codekid@e2e.test
+      SEED_TEACHER_EMAIL: ""
+      SEED_TEACHER_PASSWORD: ""
+      SEED_TEACHER_NICKNAME: ""
+  mailpit:
+    image: axllent/mailpit:v1.21
+    ports: ["127.0.0.1:8025:8025"]
+    networks: [outbound]
+    restart: unless-stopped

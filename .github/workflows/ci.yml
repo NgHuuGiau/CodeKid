@@ -69,3 +69,18 @@ jobs:
           node-version: 24
       - name: PostgreSQL and runner production smoke test
         run: node scripts/smoke-compose.mjs
+
+  e2e-production:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - name: Install frontend dependencies and Chromium
+        working-directory: frontend
+        run: npm ci --no-audit --no-fund && npx playwright install --with-deps chromium
+      - name: Production end-to-end (register, SMTP verify, learn, grade)
+        run: node scripts/e2e-production.mjs
