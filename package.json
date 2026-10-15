@@ -6,7 +6,9 @@
     "dev": "npm --prefix frontend run dev",
     "build": "npm --prefix frontend run build",
     "test": "node --test tests/api.test.mjs",
+    "test:dotnet": "dotnet test backend/CodeKid.Tests",
     "test:ui": "npm --prefix frontend run test:ui",
+    "test:compose": "node scripts/smoke-compose.mjs",
     "api": "dotnet run --project backend/CodeKid.Api --no-launch-profile -- --environment Development"
   }
 }
