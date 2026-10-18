@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Mail;
 using System.Security.Claims;
@@ -38,48 +37,48 @@ public class MailService(IConfiguration config, IWebHostEnvironment env, ILogger
 }
 
 public class LearningService(AppDb db)
-{
-    // PostgreSQL also serializes awards across instances; the unique ledger is the final guard.
-    static readonly SemaphoreSlim Writes = new(1, 1);
-    public async Task<T> Write<T>(Func<Task<T>> action)
     {
-        await Writes.WaitAsync();
-        try
+        // PostgreSQL also serializes awards across instances; the unique ledger is the final guard.
+        static readonly SemaphoreSlim Writes = new(1, 1);
+        public async Task<T> Write<T>(Func<Task<T>> action)
         {
-            await using var tx = await db.Database.BeginTransactionAsync();
-            if (db.Database.IsNpgsql()) await db.Database.ExecuteSqlRawAsync("SELECT pg_advisory_xact_lock(63661001)");
-            var result = await action(); await db.SaveChangesAsync(); await tx.CommitAsync(); return result;
+            await Writes.WaitAsync();
+            try
+            {
+                await using var tx = await db.Database.BeginTransactionAsync();
+                if (db.Database.IsNpgsql()) await db.Database.ExecuteSqlRawAsync("SELECT pg_advisory_xact_lock(63661001)");
+                var result = await action(); await db.SaveChangesAsync(); await tx.CommitAsync(); return result;
+            }
+            finally { Writes.Release(); }
         }
-        finally { Writes.Release(); }
+        public async Task<bool> LessonOpen(string uid, Lesson lesson)
+        {
+            if (!lesson.Published || !lesson.Chapter.Course.Published || !lesson.Chapter.Course.Language.Available) return false;
+            var previous = await db.Lessons.Where(x => x.Published && x.Chapter.CourseId == lesson.Chapter.CourseId &&
+                (x.Chapter.Position < lesson.Chapter.Position || x.Chapter.Position == lesson.Chapter.Position && x.Position < lesson.Position))
+                .OrderByDescending(x => x.Chapter.Position).ThenByDescending(x => x.Position).Select(x => (int?)x.Id).FirstOrDefaultAsync();
+            return previous is null || await db.StudentProgress.AnyAsync(x => x.UserId == uid && x.LessonId == previous && x.Challenge);
+        }
+        public async Task<StudentProgress> Progress(string uid, int lessonId)
+        {
+            var p = await db.StudentProgress.FirstOrDefaultAsync(x => x.UserId == uid && x.LessonId == lessonId);
+            if (p is not null) return p;
+            p = new StudentProgress { UserId = uid, LessonId = lessonId }; db.StudentProgress.Add(p); return p;
+        }
+        public static bool ModeOpen(StudentProgress? p, string mode) => mode switch { "drag" => p?.Theory == true, "memory" => p?.Drag == true, "challenge" => p?.Memory == true, _ => false };
+        public async Task<int> Award(string uid, string source, int amount)
+        {
+            if (db.XPTransactions.Local.Any(x => x.UserId == uid && x.Source == source) || await db.XPTransactions.AnyAsync(x => x.UserId == uid && x.Source == source)) return 0;
+            var profile = await db.StudentProfiles.SingleAsync(x => x.UserId == uid);
+            profile.Xp += amount;
+            db.XPTransactions.Add(new XPTransaction { UserId = uid, Source = source, Amount = amount });
+            var earned = await db.StudentAchievements.Where(x => x.UserId == uid).Select(x => x.AchievementId).ToListAsync();
+            earned.AddRange(db.StudentAchievements.Local.Where(x => x.UserId == uid).Select(x => x.AchievementId));
+            foreach (var a in await db.Achievements.Where(x => x.RequiredXp <= profile.Xp && !earned.Contains(x.Id)).ToListAsync())
+                db.StudentAchievements.Add(new StudentAchievement { UserId = uid, AchievementId = a.Id });
+            return amount;
+        }
     }
-    public async Task<bool> LessonOpen(string uid, Lesson lesson)
-    {
-        if (!lesson.Published || !lesson.Chapter.Course.Published || !lesson.Chapter.Course.Language.Available) return false;
-        var previous = await db.Lessons.Where(x => x.Published && x.Chapter.CourseId == lesson.Chapter.CourseId &&
-            (x.Chapter.Position < lesson.Chapter.Position || x.Chapter.Position == lesson.Chapter.Position && x.Position < lesson.Position))
-            .OrderByDescending(x => x.Chapter.Position).ThenByDescending(x => x.Position).Select(x => (int?)x.Id).FirstOrDefaultAsync();
-        return previous is null || await db.StudentProgress.AnyAsync(x => x.UserId == uid && x.LessonId == previous && x.Challenge);
-    }
-    public async Task<StudentProgress> Progress(string uid, int lessonId)
-    {
-        var p = await db.StudentProgress.FirstOrDefaultAsync(x => x.UserId == uid && x.LessonId == lessonId);
-        if (p is not null) return p;
-        p = new StudentProgress { UserId = uid, LessonId = lessonId }; db.StudentProgress.Add(p); return p;
-    }
-    public static bool ModeOpen(StudentProgress? p, string mode) => mode switch { "drag" => p?.Theory == true, "memory" => p?.Drag == true, "challenge" => p?.Memory == true, _ => false };
-    public async Task<int> Award(string uid, string source, int amount)
-    {
-        if (db.XPTransactions.Local.Any(x => x.UserId == uid && x.Source == source) || await db.XPTransactions.AnyAsync(x => x.UserId == uid && x.Source == source)) return 0;
-        var profile = await db.StudentProfiles.SingleAsync(x => x.UserId == uid);
-        profile.Xp += amount;
-        db.XPTransactions.Add(new XPTransaction { UserId = uid, Source = source, Amount = amount });
-        var earned = await db.StudentAchievements.Where(x => x.UserId == uid).Select(x => x.AchievementId).ToListAsync();
-        earned.AddRange(db.StudentAchievements.Local.Where(x => x.UserId == uid).Select(x => x.AchievementId));
-        foreach (var a in await db.Achievements.Where(x => x.RequiredXp <= profile.Xp && !earned.Contains(x.Id)).ToListAsync())
-            db.StudentAchievements.Add(new StudentAchievement { UserId = uid, AchievementId = a.Id });
-        return amount;
-    }
-}
 
 public class RunnerClient(HttpClient client, IConfiguration config)
 {

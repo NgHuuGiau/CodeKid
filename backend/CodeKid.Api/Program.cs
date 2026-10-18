@@ -29,6 +29,7 @@ builder.Services.ConfigureApplicationCookie(o =>
     o.Events.OnRedirectToAccessDenied = c => { c.Response.StatusCode = 403; return Task.CompletedTask; };
 });
 builder.Services.Configure<SecurityStampValidatorOptions>(o => o.ValidationInterval = TimeSpan.Zero);
+builder.Services.Configure<DataProtectionTokenProviderOptions>(o => o.TokenLifespan = TimeSpan.FromHours(1));
 builder.Services.AddAuthorization();
 builder.Services.AddDataProtection().PersistKeysToFileSystem(new DirectoryInfo(Path.Combine(builder.Environment.ContentRootPath, "keys"))).SetApplicationName("CodeKid.Academy");
 builder.Services.AddAntiforgery(o => { o.HeaderName = "X-CSRF-TOKEN"; o.Cookie.Name = "CodeKid.Csrf"; o.Cookie.SameSite = SameSiteMode.Strict; });
@@ -60,7 +61,11 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
     ForwardLimit = 2,
-    RequireHeaderSymmetry = false
+    RequireHeaderSymmetry = false,
+    // Trust headers from reverse proxy (nginx, traefik, etc.)
+    // In production, configure KnownIPNetworks/KnownProxies via env for security
+    KnownIPNetworks = { },
+    KnownProxies = { }
 });
 app.UseAuthentication(); app.UseAuthorization(); app.UseRateLimiter();
 app.Use(async (context, next) =>
