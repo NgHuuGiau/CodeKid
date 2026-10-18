@@ -1,10 +1,6 @@
 import Editor, { loader } from "@monaco-editor/react";
-import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
-import "monaco-editor/esm/vs/basic-languages/python/python.contribution";
-import EditorWorker from "monaco-editor/esm/vs/editor/editor.worker?worker";
 import { State } from "./ui";
-self.MonacoEnvironment = { getWorker: () => new EditorWorker() };
-loader.config({ monaco });
+loader.config({ paths: { vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.51.0/min/vs" } });
 export default function CodeEditor({
   value,
   onChange,
