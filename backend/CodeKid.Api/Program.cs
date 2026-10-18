@@ -1,9 +1,11 @@
 using CodeKid.Api;
 using Microsoft.AspNetCore.Antiforgery;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.EntityFrameworkCore;
 using System.Threading.RateLimiting;
 
 var syncPythonSeed = args.Contains("--sync-python-seed", StringComparer.Ordinal);
@@ -54,6 +56,12 @@ app.Use(async (context, next) =>
     catch (Exception e) when (e is not OperationCanceledException) { app.Logger.LogError(e, "Lỗi xử lý yêu cầu"); if (!context.Response.HasStarted) { context.Response.StatusCode = 500; await context.Response.WriteAsJsonAsync(new { message = "Không thể xử lý yêu cầu lúc này. Tiến độ đã lưu vẫn được giữ." }); } }
 });
 if (!app.Environment.IsDevelopment() && !app.Environment.IsEnvironment("Testing")) app.UseHsts();
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto,
+    ForwardLimit = 2,
+    RequireHeaderSymmetry = false
+});
 app.UseAuthentication(); app.UseAuthorization(); app.UseRateLimiter();
 app.Use(async (context, next) =>
 {
